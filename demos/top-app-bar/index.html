@@ -1,5 +1,4 @@
-<!doctype html>
-<!--
+<!DOCTYPE html><!--
 @license
 Copyright 2018 Google Inc. All Rights Reserved.
 
@@ -14,14 +13,27 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
--->
-<html>
-<head>
+--><html><head><script>if (!window.customElements) { document.write("<!--") }</script><script>/**
+@license @nocompile
+Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/
+(function () {
+  'use strict';
+
+  (function(){if(void 0===window.Reflect||void 0===window.customElements||window.customElements.hasOwnProperty('polyfillWrapFlushCallback'))return;const a=HTMLElement;window.HTMLElement=function(){return Reflect.construct(a,[],this.constructor)},HTMLElement.prototype=a.prototype,HTMLElement.prototype.constructor=HTMLElement,Object.setPrototypeOf(HTMLElement,a);})();
+
+}());
+</script><!--! do not remove-->
   <title>top app bar demo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
-  <script type="module" src="../../node_modules/@material/mwc-top-app-bar/mwc-top-app-bar.js"></script>
-  <script type="module" src="../../node_modules/@material/mwc-icon/mwc-icon.js"></script>
+  
+  
   <!-- <link rel="stylesheet" href="../demo-component.css"> -->
   <style>
 
@@ -208,5 +220,3715 @@ limitations under the License.
     dense.addEventListener('change', (e) => bar.dense = e.target.checked);
     extraRow.addEventListener('change', (e) => bar.extraRow = e.target.checked);
   </script>
-</body>
-</html>
+
+
+</div><script>(function () {
+    'use strict';
+
+    /**
+     * @license
+     * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+     * This code may only be used under the BSD style license found at
+     * http://polymer.github.io/LICENSE.txt
+     * The complete set of authors may be found at
+     * http://polymer.github.io/AUTHORS.txt
+     * The complete set of contributors may be found at
+     * http://polymer.github.io/CONTRIBUTORS.txt
+     * Code distributed by Google as part of the polymer project is also
+     * subject to an additional IP rights grant found at
+     * http://polymer.github.io/PATENTS.txt
+     */
+    var directives = new WeakMap();
+    var directive = function directive(f) {
+      directives.set(f, true);
+      return f;
+    };
+    var isDirective = function isDirective(o) {
+      return typeof o === 'function' && directives.has(o);
+    };
+
+    /**
+     * @license
+     * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+     * This code may only be used under the BSD style license found at
+     * http://polymer.github.io/LICENSE.txt
+     * The complete set of authors may be found at
+     * http://polymer.github.io/AUTHORS.txt
+     * The complete set of contributors may be found at
+     * http://polymer.github.io/CONTRIBUTORS.txt
+     * Code distributed by Google as part of the polymer project is also
+     * subject to an additional IP rights grant found at
+     * http://polymer.github.io/PATENTS.txt
+     */
+    var isCEPolyfill = window.customElements !== undefined && window.customElements.polyfillWrapFlushCallback !== undefined;
+    /**
+     * Reparents nodes, starting from `startNode` (inclusive) to `endNode`
+     * (exclusive), into another container (could be the same container), before
+     * `beforeNode`. If `beforeNode` is null, it appends the nodes to the
+     * container.
+     */
+    var reparentNodes = function reparentNodes(container, start) {
+        var end = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+        var before = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+
+        var node = start;
+        while (node !== end) {
+            var n = node.nextSibling;
+            container.insertBefore(node, before);
+            node = n;
+        }
+    };
+    /**
+     * Removes nodes, starting from `startNode` (inclusive) to `endNode`
+     * (exclusive), from `container`.
+     */
+    var removeNodes = function removeNodes(container, startNode) {
+        var endNode = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+        var node = startNode;
+        while (node !== endNode) {
+            var n = node.nextSibling;
+            container.removeChild(node);
+            node = n;
+        }
+    };
+
+    /**
+     * A sentinel value that signals that a value was handled by a directive and
+     * should not be written to the DOM.
+     */
+    var noChange = {};
+
+    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+      return typeof obj;
+    } : function (obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+
+    var classCallCheck = function (instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+      }
+    };
+
+    var createClass = function () {
+      function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+          var descriptor = props[i];
+          descriptor.enumerable = descriptor.enumerable || false;
+          descriptor.configurable = true;
+          if ("value" in descriptor) descriptor.writable = true;
+          Object.defineProperty(target, descriptor.key, descriptor);
+        }
+      }
+
+      return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) defineProperties(Constructor, staticProps);
+        return Constructor;
+      };
+    }();
+
+    var _extends = Object.assign || function (target) {
+      for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];
+
+        for (var key in source) {
+          if (Object.prototype.hasOwnProperty.call(source, key)) {
+            target[key] = source[key];
+          }
+        }
+      }
+
+      return target;
+    };
+
+    var get = function get(object, property, receiver) {
+      if (object === null) object = Function.prototype;
+      var desc = Object.getOwnPropertyDescriptor(object, property);
+
+      if (desc === undefined) {
+        var parent = Object.getPrototypeOf(object);
+
+        if (parent === null) {
+          return undefined;
+        } else {
+          return get(parent, property, receiver);
+        }
+      } else if ("value" in desc) {
+        return desc.value;
+      } else {
+        var getter = desc.get;
+
+        if (getter === undefined) {
+          return undefined;
+        }
+
+        return getter.call(receiver);
+      }
+    };
+
+    var inherits = function (subClass, superClass) {
+      if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+      }
+
+      subClass.prototype = Object.create(superClass && superClass.prototype, {
+        constructor: {
+          value: subClass,
+          enumerable: false,
+          writable: true,
+          configurable: true
+        }
+      });
+      if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+    };
+
+    var possibleConstructorReturn = function (self, call) {
+      if (!self) {
+        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+      }
+
+      return call && (typeof call === "object" || typeof call === "function") ? call : self;
+    };
+
+    var slicedToArray = function () {
+      function sliceIterator(arr, i) {
+        var _arr = [];
+        var _n = true;
+        var _d = false;
+        var _e = undefined;
+
+        try {
+          for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+            _arr.push(_s.value);
+
+            if (i && _arr.length === i) break;
+          }
+        } catch (err) {
+          _d = true;
+          _e = err;
+        } finally {
+          try {
+            if (!_n && _i["return"]) _i["return"]();
+          } finally {
+            if (_d) throw _e;
+          }
+        }
+
+        return _arr;
+      }
+
+      return function (arr, i) {
+        if (Array.isArray(arr)) {
+          return arr;
+        } else if (Symbol.iterator in Object(arr)) {
+          return sliceIterator(arr, i);
+        } else {
+          throw new TypeError("Invalid attempt to destructure non-iterable instance");
+        }
+      };
+    }();
+
+    var taggedTemplateLiteral = function (strings, raw) {
+      return Object.freeze(Object.defineProperties(strings, {
+        raw: {
+          value: Object.freeze(raw)
+        }
+      }));
+    };
+
+    var toConsumableArray = function (arr) {
+      if (Array.isArray(arr)) {
+        for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+        return arr2;
+      } else {
+        return Array.from(arr);
+      }
+    };
+
+    /**
+     * @license
+     * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+     * This code may only be used under the BSD style license found at
+     * http://polymer.github.io/LICENSE.txt
+     * The complete set of authors may be found at
+     * http://polymer.github.io/AUTHORS.txt
+     * The complete set of contributors may be found at
+     * http://polymer.github.io/CONTRIBUTORS.txt
+     * Code distributed by Google as part of the polymer project is also
+     * subject to an additional IP rights grant found at
+     * http://polymer.github.io/PATENTS.txt
+     */
+    /**
+     * An expression marker with embedded unique key to avoid collision with
+     * possible text in templates.
+     */
+    var marker = '{{lit-' + String(Math.random()).slice(2) + '}}';
+    /**
+     * An expression marker used text-positions, not attribute positions,
+     * in template.
+     */
+    var nodeMarker = '<!--' + marker + '-->';
+    var markerRegex = new RegExp(marker + '|' + nodeMarker);
+    var rewritesStyleAttribute = function () {
+        var el = document.createElement('div');
+        el.setAttribute('style', '{{bad value}}');
+        return el.getAttribute('style') !== '{{bad value}}';
+    }();
+    /**
+     * An updateable Template that tracks the location of dynamic parts.
+     */
+    var Template = function Template(result, element) {
+        var _this = this;
+
+        classCallCheck(this, Template);
+
+        this.parts = [];
+        this.element = element;
+        var index = -1;
+        var partIndex = 0;
+        var nodesToRemove = [];
+        var _prepareTemplate = function _prepareTemplate(template) {
+            var content = template.content;
+            // Edge needs all 4 parameters present; IE11 needs 3rd parameter to be
+            // null
+            var walker = document.createTreeWalker(content, 133 /* NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_COMMENT |
+                                                                NodeFilter.SHOW_TEXT */, null, false);
+            // The actual previous node, accounting for removals: if a node is removed
+            // it will never be the previousNode.
+            var previousNode = void 0;
+            // Used to set previousNode at the top of the loop.
+            var currentNode = void 0;
+            while (walker.nextNode()) {
+                index++;
+                previousNode = currentNode;
+                var node = currentNode = walker.currentNode;
+                if (node.nodeType === 1 /* Node.ELEMENT_NODE */) {
+                        if (node.hasAttributes()) {
+                            var attributes = node.attributes;
+                            // Per
+                            // https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap,
+                            // attributes are not guaranteed to be returned in document order.
+                            // In particular, Edge/IE can return them out of order, so we cannot
+                            // assume a correspondance between part index and attribute index.
+                            var count = 0;
+                            for (var i = 0; i < attributes.length; i++) {
+                                if (attributes[i].value.indexOf(marker) >= 0) {
+                                    count++;
+                                }
+                            }
+                            while (count-- > 0) {
+                                // Get the template literal section leading up to the first
+                                // expression in this attribute
+                                var stringForPart = result.strings[partIndex];
+                                // Find the attribute name
+                                var name = lastAttributeNameRegex.exec(stringForPart)[2];
+                                // Find the corresponding attribute
+                                // If the attribute name contains special characters, lower-case
+                                // it so that on XML nodes with case-sensitive getAttribute() we
+                                // can still find the attribute, which will have been lower-cased
+                                // by the parser.
+                                //
+                                // If the attribute name doesn't contain special character, it's
+                                // important to _not_ lower-case it, in case the name is
+                                // case-sensitive, like with XML attributes like "viewBox".
+                                var attributeLookupName = rewritesStyleAttribute && name === 'style' ? 'style$' : /^[a-zA-Z-]*$/.test(name) ? name : name.toLowerCase();
+                                var attributeValue = node.getAttribute(attributeLookupName);
+                                var strings = attributeValue.split(markerRegex);
+                                _this.parts.push({ type: 'attribute', index: index, name: name, strings: strings });
+                                node.removeAttribute(attributeLookupName);
+                                partIndex += strings.length - 1;
+                            }
+                        }
+                        if (node.tagName === 'TEMPLATE') {
+                            _prepareTemplate(node);
+                        }
+                    } else if (node.nodeType === 3 /* Node.TEXT_NODE */) {
+                        var nodeValue = node.nodeValue;
+                        if (nodeValue.indexOf(marker) < 0) {
+                            continue;
+                        }
+                        var parent = node.parentNode;
+                        var _strings = nodeValue.split(markerRegex);
+                        var lastIndex = _strings.length - 1;
+                        // We have a part for each match found
+                        partIndex += lastIndex;
+                        // Generate a new text node for each literal section
+                        // These nodes are also used as the markers for node parts
+                        for (var _i = 0; _i < lastIndex; _i++) {
+                            parent.insertBefore(_strings[_i] === '' ? createMarker() : document.createTextNode(_strings[_i]), node);
+                            _this.parts.push({ type: 'node', index: index++ });
+                        }
+                        parent.insertBefore(_strings[lastIndex] === '' ? createMarker() : document.createTextNode(_strings[lastIndex]), node);
+                        nodesToRemove.push(node);
+                    } else if (node.nodeType === 8 /* Node.COMMENT_NODE */) {
+                        if (node.nodeValue === marker) {
+                            var _parent = node.parentNode;
+                            // Add a new marker node to be the startNode of the Part if any of
+                            // the following are true:
+                            //  * We don't have a previousSibling
+                            //  * previousSibling is being removed (thus it's not the
+                            //    `previousNode`)
+                            //  * previousSibling is not a Text node
+                            //
+                            // TODO(justinfagnani): We should be able to use the previousNode
+                            // here as the marker node and reduce the number of extra nodes we
+                            // add to a template. See
+                            // https://github.com/PolymerLabs/lit-html/issues/147
+                            var previousSibling = node.previousSibling;
+                            if (previousSibling === null || previousSibling !== previousNode || previousSibling.nodeType !== Node.TEXT_NODE) {
+                                _parent.insertBefore(createMarker(), node);
+                            } else {
+                                index--;
+                            }
+                            _this.parts.push({ type: 'node', index: index++ });
+                            nodesToRemove.push(node);
+                            // If we don't have a nextSibling add a marker node.
+                            // We don't have to check if the next node is going to be removed,
+                            // because that node will induce a new marker if so.
+                            if (node.nextSibling === null) {
+                                _parent.insertBefore(createMarker(), node);
+                            } else {
+                                index--;
+                            }
+                            currentNode = previousNode;
+                            partIndex++;
+                        } else {
+                            var _i2 = -1;
+                            while ((_i2 = node.nodeValue.indexOf(marker, _i2 + 1)) !== -1) {
+                                // Comment node has a binding marker inside, make an inactive part
+                                // The binding won't work, but subsequent bindings will
+                                // TODO (justinfagnani): consider whether it's even worth it to
+                                // make bindings in comments work
+                                _this.parts.push({ type: 'node', index: -1 });
+                            }
+                        }
+                    }
+            }
+        };
+        _prepareTemplate(element);
+        // Remove text binding nodes after the walk to not disturb the TreeWalker
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+            for (var _iterator = nodesToRemove[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                var n = _step.value;
+
+                n.parentNode.removeChild(n);
+            }
+        } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+        } finally {
+            try {
+                if (!_iteratorNormalCompletion && _iterator.return) {
+                    _iterator.return();
+                }
+            } finally {
+                if (_didIteratorError) {
+                    throw _iteratorError;
+                }
+            }
+        }
+    };
+    var isTemplatePartActive = function isTemplatePartActive(part) {
+        return part.index !== -1;
+    };
+    // Allows `document.createComment('')` to be renamed for a
+    // small manual size-savings.
+    var createMarker = function createMarker() {
+        return document.createComment('');
+    };
+    /**
+     * This regex extracts the attribute name preceding an attribute-position
+     * expression. It does this by matching the syntax allowed for attributes
+     * against the string literal directly preceding the expression, assuming that
+     * the expression is in an attribute-value position.
+     *
+     * See attributes in the HTML spec:
+     * https://www.w3.org/TR/html5/syntax.html#attributes-0
+     *
+     * "\0-\x1F\x7F-\x9F" are Unicode control characters
+     *
+     * " \x09\x0a\x0c\x0d" are HTML space characters:
+     * https://www.w3.org/TR/html5/infrastructure.html#space-character
+     *
+     * So an attribute is:
+     *  * The name: any character except a control character, space character, ('),
+     *    ("), ">", "=", or "/"
+     *  * Followed by zero or more space characters
+     *  * Followed by "="
+     *  * Followed by zero or more space characters
+     *  * Followed by:
+     *    * Any character except space, ('), ("), "<", ">", "=", (`), or
+     *    * (") then any non-("), or
+     *    * (') then any non-(')
+     */
+    var lastAttributeNameRegex = /([ \x09\x0a\x0c\x0d])([^\0-\x1F\x7F-\x9F \x09\x0a\x0c\x0d"'>=/]+)([ \x09\x0a\x0c\x0d]*=[ \x09\x0a\x0c\x0d]*(?:[^ \x09\x0a\x0c\x0d"'`<>=]*|"[^"]*|'[^']*))$/;
+
+    /**
+     * @license
+     * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+     * This code may only be used under the BSD style license found at
+     * http://polymer.github.io/LICENSE.txt
+     * The complete set of authors may be found at
+     * http://polymer.github.io/AUTHORS.txt
+     * The complete set of contributors may be found at
+     * http://polymer.github.io/CONTRIBUTORS.txt
+     * Code distributed by Google as part of the polymer project is also
+     * subject to an additional IP rights grant found at
+     * http://polymer.github.io/PATENTS.txt
+     */
+    /**
+     * An instance of a `Template` that can be attached to the DOM and updated
+     * with new values.
+     */
+    var TemplateInstance = function () {
+        function TemplateInstance(template, processor, options) {
+            classCallCheck(this, TemplateInstance);
+
+            this._parts = [];
+            this.template = template;
+            this.processor = processor;
+            this.options = options;
+        }
+
+        createClass(TemplateInstance, [{
+            key: 'update',
+            value: function update(values) {
+                var i = 0;
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
+
+                try {
+                    for (var _iterator = this._parts[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                        var part = _step.value;
+
+                        if (part !== undefined) {
+                            part.setValue(values[i]);
+                        }
+                        i++;
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return) {
+                            _iterator.return();
+                        }
+                    } finally {
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
+                }
+
+                var _iteratorNormalCompletion2 = true;
+                var _didIteratorError2 = false;
+                var _iteratorError2 = undefined;
+
+                try {
+                    for (var _iterator2 = this._parts[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                        var _part = _step2.value;
+
+                        if (_part !== undefined) {
+                            _part.commit();
+                        }
+                    }
+                } catch (err) {
+                    _didIteratorError2 = true;
+                    _iteratorError2 = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                            _iterator2.return();
+                        }
+                    } finally {
+                        if (_didIteratorError2) {
+                            throw _iteratorError2;
+                        }
+                    }
+                }
+            }
+        }, {
+            key: '_clone',
+            value: function _clone() {
+                var _this = this;
+
+                // When using the Custom Elements polyfill, clone the node, rather than
+                // importing it, to keep the fragment in the template's document. This
+                // leaves the fragment inert so custom elements won't upgrade and
+                // potentially modify their contents by creating a polyfilled ShadowRoot
+                // while we traverse the tree.
+                var fragment = isCEPolyfill ? this.template.element.content.cloneNode(true) : document.importNode(this.template.element.content, true);
+                var parts = this.template.parts;
+                var partIndex = 0;
+                var nodeIndex = 0;
+                var _prepareInstance = function _prepareInstance(fragment) {
+                    // Edge needs all 4 parameters present; IE11 needs 3rd parameter to be
+                    // null
+                    var walker = document.createTreeWalker(fragment, 133 /* NodeFilter.SHOW_{ELEMENT|COMMENT|TEXT} */, null, false);
+                    var node = walker.nextNode();
+                    // Loop through all the nodes and parts of a template
+                    while (partIndex < parts.length && node !== null) {
+                        var part = parts[partIndex];
+                        // Consecutive Parts may have the same node index, in the case of
+                        // multiple bound attributes on an element. So each iteration we either
+                        // increment the nodeIndex, if we aren't on a node with a part, or the
+                        // partIndex if we are. By not incrementing the nodeIndex when we find a
+                        // part, we allow for the next part to be associated with the current
+                        // node if neccessasry.
+                        if (!isTemplatePartActive(part)) {
+                            _this._parts.push(undefined);
+                            partIndex++;
+                        } else if (nodeIndex === part.index) {
+                            if (part.type === 'node') {
+                                var _part2 = _this.processor.handleTextExpression(_this.options);
+                                _part2.insertAfterNode(node);
+                                _this._parts.push(_part2);
+                            } else {
+                                var _parts;
+
+                                (_parts = _this._parts).push.apply(_parts, toConsumableArray(_this.processor.handleAttributeExpressions(node, part.name, part.strings, _this.options)));
+                            }
+                            partIndex++;
+                        } else {
+                            nodeIndex++;
+                            if (node.nodeName === 'TEMPLATE') {
+                                _prepareInstance(node.content);
+                            }
+                            node = walker.nextNode();
+                        }
+                    }
+                };
+                _prepareInstance(fragment);
+                if (isCEPolyfill) {
+                    document.adoptNode(fragment);
+                    customElements.upgrade(fragment);
+                }
+                return fragment;
+            }
+        }]);
+        return TemplateInstance;
+    }();
+
+    /**
+     * @license
+     * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+     * This code may only be used under the BSD style license found at
+     * http://polymer.github.io/LICENSE.txt
+     * The complete set of authors may be found at
+     * http://polymer.github.io/AUTHORS.txt
+     * The complete set of contributors may be found at
+     * http://polymer.github.io/CONTRIBUTORS.txt
+     * Code distributed by Google as part of the polymer project is also
+     * subject to an additional IP rights grant found at
+     * http://polymer.github.io/PATENTS.txt
+     */
+    /**
+     * The return type of `html`, which holds a Template and the values from
+     * interpolated expressions.
+     */
+    var TemplateResult = function () {
+        function TemplateResult(strings, values, type, processor) {
+            classCallCheck(this, TemplateResult);
+
+            this.strings = strings;
+            this.values = values;
+            this.type = type;
+            this.processor = processor;
+        }
+        /**
+         * Returns a string of HTML used to create a `<template>` element.
+         */
+
+
+        createClass(TemplateResult, [{
+            key: 'getHTML',
+            value: function getHTML() {
+                var l = this.strings.length - 1;
+                var html = '';
+                var isTextBinding = true;
+                for (var i = 0; i < l; i++) {
+                    var s = this.strings[i];
+                    html += s;
+                    var close = s.lastIndexOf('>');
+                    // We're in a text position if the previous string closed its last tag, an
+                    // attribute position if the string opened an unclosed tag, and unchanged
+                    // if the string had no brackets at all:
+                    //
+                    // "...>...": text position. open === -1, close > -1
+                    // "...<...": attribute position. open > -1
+                    // "...": no change. open === -1, close === -1
+                    isTextBinding = (close > -1 || isTextBinding) && s.indexOf('<', close + 1) === -1;
+                    if (!isTextBinding && rewritesStyleAttribute) {
+                        html = html.replace(lastAttributeNameRegex, function (match, p1, p2, p3) {
+                            return p2 === 'style' ? p1 + 'style$' + p3 : match;
+                        });
+                    }
+                    html += isTextBinding ? nodeMarker : marker;
+                }
+                html += this.strings[l];
+                return html;
+            }
+        }, {
+            key: 'getTemplateElement',
+            value: function getTemplateElement() {
+                var template = document.createElement('template');
+                template.innerHTML = this.getHTML();
+                return template;
+            }
+        }]);
+        return TemplateResult;
+    }();
+    /**
+     * A TemplateResult for SVG fragments.
+     *
+     * This class wraps HTMl in an `<svg>` tag in order to parse its contents in the
+     * SVG namespace, then modifies the template to remove the `<svg>` tag so that
+     * clones only container the original fragment.
+     */
+    var SVGTemplateResult = function (_TemplateResult) {
+        inherits(SVGTemplateResult, _TemplateResult);
+
+        function SVGTemplateResult() {
+            classCallCheck(this, SVGTemplateResult);
+            return possibleConstructorReturn(this, (SVGTemplateResult.__proto__ || Object.getPrototypeOf(SVGTemplateResult)).apply(this, arguments));
+        }
+
+        createClass(SVGTemplateResult, [{
+            key: 'getHTML',
+            value: function getHTML() {
+                return '<svg>' + get(SVGTemplateResult.prototype.__proto__ || Object.getPrototypeOf(SVGTemplateResult.prototype), 'getHTML', this).call(this) + '</svg>';
+            }
+        }, {
+            key: 'getTemplateElement',
+            value: function getTemplateElement() {
+                var template = get(SVGTemplateResult.prototype.__proto__ || Object.getPrototypeOf(SVGTemplateResult.prototype), 'getTemplateElement', this).call(this);
+                var content = template.content;
+                var svgElement = content.firstChild;
+                content.removeChild(svgElement);
+                reparentNodes(content, svgElement.firstChild);
+                return template;
+            }
+        }]);
+        return SVGTemplateResult;
+    }(TemplateResult);
+
+    /**
+     * @license
+     * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+     * This code may only be used under the BSD style license found at
+     * http://polymer.github.io/LICENSE.txt
+     * The complete set of authors may be found at
+     * http://polymer.github.io/AUTHORS.txt
+     * The complete set of contributors may be found at
+     * http://polymer.github.io/CONTRIBUTORS.txt
+     * Code distributed by Google as part of the polymer project is also
+     * subject to an additional IP rights grant found at
+     * http://polymer.github.io/PATENTS.txt
+     */
+    var isPrimitive = function isPrimitive(value) {
+        return value === null || !((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' || typeof value === 'function');
+    };
+    /**
+     * Sets attribute values for AttributeParts, so that the value is only set once
+     * even if there are multiple parts for an attribute.
+     */
+    var AttributeCommitter = function () {
+        function AttributeCommitter(element, name, strings) {
+            classCallCheck(this, AttributeCommitter);
+
+            this.dirty = true;
+            this.element = element;
+            this.name = name;
+            this.strings = strings;
+            this.parts = [];
+            for (var i = 0; i < strings.length - 1; i++) {
+                this.parts[i] = this._createPart();
+            }
+        }
+        /**
+         * Creates a single part. Override this to create a differnt type of part.
+         */
+
+
+        createClass(AttributeCommitter, [{
+            key: '_createPart',
+            value: function _createPart() {
+                return new AttributePart(this);
+            }
+        }, {
+            key: '_getValue',
+            value: function _getValue() {
+                var strings = this.strings;
+                var l = strings.length - 1;
+                var text = '';
+                for (var i = 0; i < l; i++) {
+                    text += strings[i];
+                    var part = this.parts[i];
+                    if (part !== undefined) {
+                        var v = part.value;
+                        if (v != null && (Array.isArray(v) || typeof v !== 'string' && v[Symbol.iterator])) {
+                            var _iteratorNormalCompletion = true;
+                            var _didIteratorError = false;
+                            var _iteratorError = undefined;
+
+                            try {
+                                for (var _iterator = v[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                                    var t = _step.value;
+
+                                    text += typeof t === 'string' ? t : String(t);
+                                }
+                            } catch (err) {
+                                _didIteratorError = true;
+                                _iteratorError = err;
+                            } finally {
+                                try {
+                                    if (!_iteratorNormalCompletion && _iterator.return) {
+                                        _iterator.return();
+                                    }
+                                } finally {
+                                    if (_didIteratorError) {
+                                        throw _iteratorError;
+                                    }
+                                }
+                            }
+                        } else {
+                            text += typeof v === 'string' ? v : String(v);
+                        }
+                    }
+                }
+                text += strings[l];
+                return text;
+            }
+        }, {
+            key: 'commit',
+            value: function commit() {
+                if (this.dirty) {
+                    this.dirty = false;
+                    this.element.setAttribute(this.name, this._getValue());
+                }
+            }
+        }]);
+        return AttributeCommitter;
+    }();
+    var AttributePart = function () {
+        function AttributePart(comitter) {
+            classCallCheck(this, AttributePart);
+
+            this.value = undefined;
+            this.committer = comitter;
+        }
+
+        createClass(AttributePart, [{
+            key: 'setValue',
+            value: function setValue(value) {
+                if (value !== noChange && (!isPrimitive(value) || value !== this.value)) {
+                    this.value = value;
+                    // If the value is a not a directive, dirty the committer so that it'll
+                    // call setAttribute. If the value is a directive, it'll dirty the
+                    // committer if it calls setValue().
+                    if (!isDirective(value)) {
+                        this.committer.dirty = true;
+                    }
+                }
+            }
+        }, {
+            key: 'commit',
+            value: function commit() {
+                while (isDirective(this.value)) {
+                    var directive$$1 = this.value;
+                    this.value = noChange;
+                    directive$$1(this);
+                }
+                if (this.value === noChange) {
+                    return;
+                }
+                this.committer.commit();
+            }
+        }]);
+        return AttributePart;
+    }();
+    var NodePart = function () {
+        function NodePart(options) {
+            classCallCheck(this, NodePart);
+
+            this.value = undefined;
+            this._pendingValue = undefined;
+            this.options = options;
+        }
+        /**
+         * Inserts this part into a container.
+         *
+         * This part must be empty, as its contents are not automatically moved.
+         */
+
+
+        createClass(NodePart, [{
+            key: 'appendInto',
+            value: function appendInto(container) {
+                this.startNode = container.appendChild(createMarker());
+                this.endNode = container.appendChild(createMarker());
+            }
+            /**
+             * Inserts this part between `ref` and `ref`'s next sibling. Both `ref` and
+             * its next sibling must be static, unchanging nodes such as those that appear
+             * in a literal section of a template.
+             *
+             * This part must be empty, as its contents are not automatically moved.
+             */
+
+        }, {
+            key: 'insertAfterNode',
+            value: function insertAfterNode(ref) {
+                this.startNode = ref;
+                this.endNode = ref.nextSibling;
+            }
+            /**
+             * Appends this part into a parent part.
+             *
+             * This part must be empty, as its contents are not automatically moved.
+             */
+
+        }, {
+            key: 'appendIntoPart',
+            value: function appendIntoPart(part) {
+                part._insert(this.startNode = createMarker());
+                part._insert(this.endNode = createMarker());
+            }
+            /**
+             * Appends this part after `ref`
+             *
+             * This part must be empty, as its contents are not automatically moved.
+             */
+
+        }, {
+            key: 'insertAfterPart',
+            value: function insertAfterPart(ref) {
+                ref._insert(this.startNode = createMarker());
+                this.endNode = ref.endNode;
+                ref.endNode = this.startNode;
+            }
+        }, {
+            key: 'setValue',
+            value: function setValue(value) {
+                this._pendingValue = value;
+            }
+        }, {
+            key: 'commit',
+            value: function commit() {
+                while (isDirective(this._pendingValue)) {
+                    var directive$$1 = this._pendingValue;
+                    this._pendingValue = noChange;
+                    directive$$1(this);
+                }
+                var value = this._pendingValue;
+                if (value === noChange) {
+                    return;
+                }
+                if (isPrimitive(value)) {
+                    if (value !== this.value) {
+                        this._commitText(value);
+                    }
+                } else if (value instanceof TemplateResult) {
+                    this._commitTemplateResult(value);
+                } else if (value instanceof Node) {
+                    this._commitNode(value);
+                } else if (Array.isArray(value) || value[Symbol.iterator]) {
+                    this._commitIterable(value);
+                } else if (value.then !== undefined) {
+                    this._commitPromise(value);
+                } else {
+                    // Fallback, will render the string representation
+                    this._commitText(value);
+                }
+            }
+        }, {
+            key: '_insert',
+            value: function _insert(node) {
+                this.endNode.parentNode.insertBefore(node, this.endNode);
+            }
+        }, {
+            key: '_commitNode',
+            value: function _commitNode(value) {
+                if (this.value === value) {
+                    return;
+                }
+                this.clear();
+                this._insert(value);
+                this.value = value;
+            }
+        }, {
+            key: '_commitText',
+            value: function _commitText(value) {
+                var node = this.startNode.nextSibling;
+                value = value == null ? '' : value;
+                if (node === this.endNode.previousSibling && node.nodeType === Node.TEXT_NODE) {
+                    // If we only have a single text node between the markers, we can just
+                    // set its value, rather than replacing it.
+                    // TODO(justinfagnani): Can we just check if this.value is primitive?
+                    node.textContent = value;
+                } else {
+                    this._commitNode(document.createTextNode(typeof value === 'string' ? value : String(value)));
+                }
+                this.value = value;
+            }
+        }, {
+            key: '_commitTemplateResult',
+            value: function _commitTemplateResult(value) {
+                var template = this.options.templateFactory(value);
+                if (this.value && this.value.template === template) {
+                    this.value.update(value.values);
+                } else {
+                    // Make sure we propagate the template processor from the TemplateResult
+                    // so that we use its syntax extension, etc. The template factory comes
+                    // from the render function options so that it can control template
+                    // caching and preprocessing.
+                    var instance = new TemplateInstance(template, value.processor, this.options);
+                    var fragment = instance._clone();
+                    instance.update(value.values);
+                    this._commitNode(fragment);
+                    this.value = instance;
+                }
+            }
+        }, {
+            key: '_commitIterable',
+            value: function _commitIterable(value) {
+                // For an Iterable, we create a new InstancePart per item, then set its
+                // value to the item. This is a little bit of overhead for every item in
+                // an Iterable, but it lets us recurse easily and efficiently update Arrays
+                // of TemplateResults that will be commonly returned from expressions like:
+                // array.map((i) => html`${i}`), by reusing existing TemplateInstances.
+                // If _value is an array, then the previous render was of an
+                // iterable and _value will contain the NodeParts from the previous
+                // render. If _value is not an array, clear this part and make a new
+                // array for NodeParts.
+                if (!Array.isArray(this.value)) {
+                    this.value = [];
+                    this.clear();
+                }
+                // Lets us keep track of how many items we stamped so we can clear leftover
+                // items from a previous render
+                var itemParts = this.value;
+                var partIndex = 0;
+                var itemPart = void 0;
+                var _iteratorNormalCompletion2 = true;
+                var _didIteratorError2 = false;
+                var _iteratorError2 = undefined;
+
+                try {
+                    for (var _iterator2 = value[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                        var item = _step2.value;
+
+                        // Try to reuse an existing part
+                        itemPart = itemParts[partIndex];
+                        // If no existing part, create a new one
+                        if (itemPart === undefined) {
+                            itemPart = new NodePart(this.options);
+                            itemParts.push(itemPart);
+                            if (partIndex === 0) {
+                                itemPart.appendIntoPart(this);
+                            } else {
+                                itemPart.insertAfterPart(itemParts[partIndex - 1]);
+                            }
+                        }
+                        itemPart.setValue(item);
+                        itemPart.commit();
+                        partIndex++;
+                    }
+                } catch (err) {
+                    _didIteratorError2 = true;
+                    _iteratorError2 = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                            _iterator2.return();
+                        }
+                    } finally {
+                        if (_didIteratorError2) {
+                            throw _iteratorError2;
+                        }
+                    }
+                }
+
+                if (partIndex < itemParts.length) {
+                    // Truncate the parts array so _value reflects the current state
+                    itemParts.length = partIndex;
+                    this.clear(itemPart && itemPart.endNode);
+                }
+            }
+        }, {
+            key: '_commitPromise',
+            value: function _commitPromise(value) {
+                var _this = this;
+
+                this.value = value;
+                value.then(function (v) {
+                    if (_this.value === value) {
+                        _this.setValue(v);
+                        _this.commit();
+                    }
+                });
+            }
+        }, {
+            key: 'clear',
+            value: function clear() {
+                var startNode = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.startNode;
+
+                removeNodes(this.startNode.parentNode, startNode.nextSibling, this.endNode);
+            }
+        }]);
+        return NodePart;
+    }();
+    /**
+     * Implements a boolean attribute, roughly as defined in the HTML
+     * specification.
+     *
+     * If the value is truthy, then the attribute is present with a value of
+     * ''. If the value is falsey, the attribute is removed.
+     */
+    var BooleanAttributePart = function () {
+        function BooleanAttributePart(element, name, strings) {
+            classCallCheck(this, BooleanAttributePart);
+
+            this.value = undefined;
+            this._pendingValue = undefined;
+            if (strings.length !== 2 || strings[0] !== '' || strings[1] !== '') {
+                throw new Error('Boolean attributes can only contain a single expression');
+            }
+            this.element = element;
+            this.name = name;
+            this.strings = strings;
+        }
+
+        createClass(BooleanAttributePart, [{
+            key: 'setValue',
+            value: function setValue(value) {
+                this._pendingValue = value;
+            }
+        }, {
+            key: 'commit',
+            value: function commit() {
+                while (isDirective(this._pendingValue)) {
+                    var directive$$1 = this._pendingValue;
+                    this._pendingValue = noChange;
+                    directive$$1(this);
+                }
+                if (this._pendingValue === noChange) {
+                    return;
+                }
+                var value = !!this._pendingValue;
+                if (this.value !== value) {
+                    if (value) {
+                        this.element.setAttribute(this.name, '');
+                    } else {
+                        this.element.removeAttribute(this.name);
+                    }
+                }
+                this.value = value;
+                this._pendingValue = noChange;
+            }
+        }]);
+        return BooleanAttributePart;
+    }();
+    /**
+     * Sets attribute values for PropertyParts, so that the value is only set once
+     * even if there are multiple parts for a property.
+     *
+     * If an expression controls the whole property value, then the value is simply
+     * assigned to the property under control. If there are string literals or
+     * multiple expressions, then the strings are expressions are interpolated into
+     * a string first.
+     */
+    var PropertyCommitter = function (_AttributeCommitter) {
+        inherits(PropertyCommitter, _AttributeCommitter);
+
+        function PropertyCommitter(element, name, strings) {
+            classCallCheck(this, PropertyCommitter);
+
+            var _this2 = possibleConstructorReturn(this, (PropertyCommitter.__proto__ || Object.getPrototypeOf(PropertyCommitter)).call(this, element, name, strings));
+
+            _this2.single = strings.length === 2 && strings[0] === '' && strings[1] === '';
+            return _this2;
+        }
+
+        createClass(PropertyCommitter, [{
+            key: '_createPart',
+            value: function _createPart() {
+                return new PropertyPart(this);
+            }
+        }, {
+            key: '_getValue',
+            value: function _getValue() {
+                if (this.single) {
+                    return this.parts[0].value;
+                }
+                return get(PropertyCommitter.prototype.__proto__ || Object.getPrototypeOf(PropertyCommitter.prototype), '_getValue', this).call(this);
+            }
+        }, {
+            key: 'commit',
+            value: function commit() {
+                if (this.dirty) {
+                    this.dirty = false;
+                    this.element[this.name] = this._getValue();
+                }
+            }
+        }]);
+        return PropertyCommitter;
+    }(AttributeCommitter);
+    var PropertyPart = function (_AttributePart) {
+        inherits(PropertyPart, _AttributePart);
+
+        function PropertyPart() {
+            classCallCheck(this, PropertyPart);
+            return possibleConstructorReturn(this, (PropertyPart.__proto__ || Object.getPrototypeOf(PropertyPart)).apply(this, arguments));
+        }
+
+        return PropertyPart;
+    }(AttributePart);
+    // Detect event listener options support. If the `capture` property is read
+    // from the options object, then options are supported. If not, then the thrid
+    // argument to add/removeEventListener is interpreted as the boolean capture
+    // value so we should only pass the `capture` property.
+    var eventOptionsSupported = false;
+    try {
+        var options = {
+            get capture() {
+                eventOptionsSupported = true;
+                return false;
+            }
+        };
+        window.addEventListener('test', options, options);
+        window.removeEventListener('test', options, options);
+    } catch (_e) {}
+    var EventPart = function () {
+        function EventPart(element, eventName, eventContext) {
+            classCallCheck(this, EventPart);
+
+            this.value = undefined;
+            this._pendingValue = undefined;
+            this.element = element;
+            this.eventName = eventName;
+            this.eventContext = eventContext;
+        }
+
+        createClass(EventPart, [{
+            key: 'setValue',
+            value: function setValue(value) {
+                this._pendingValue = value;
+            }
+        }, {
+            key: 'commit',
+            value: function commit() {
+                while (isDirective(this._pendingValue)) {
+                    var directive$$1 = this._pendingValue;
+                    this._pendingValue = noChange;
+                    directive$$1(this);
+                }
+                if (this._pendingValue === noChange) {
+                    return;
+                }
+                var newListener = this._pendingValue;
+                var oldListener = this.value;
+                var shouldRemoveListener = newListener == null || oldListener != null && (newListener.capture !== oldListener.capture || newListener.once !== oldListener.once || newListener.passive !== oldListener.passive);
+                var shouldAddListener = newListener != null && (oldListener == null || shouldRemoveListener);
+                if (shouldRemoveListener) {
+                    this.element.removeEventListener(this.eventName, this, this._options);
+                }
+                this._options = getOptions(newListener);
+                if (shouldAddListener) {
+                    this.element.addEventListener(this.eventName, this, this._options);
+                }
+                this.value = newListener;
+                this._pendingValue = noChange;
+            }
+        }, {
+            key: 'handleEvent',
+            value: function handleEvent(event) {
+                var listener = typeof this.value === 'function' ? this.value : typeof this.value.handleEvent === 'function' ? this.value.handleEvent : function () {
+                    return null;
+                };
+                listener.call(this.eventContext || this.element, event);
+            }
+        }]);
+        return EventPart;
+    }();
+    // We copy options because of the inconsistent behavior of browsers when reading
+    // the third argument of add/removeEventListener. IE11 doesn't support options
+    // at all. Chrome 41 only reads `capture` if the argument is an object.
+    var getOptions = function getOptions(o) {
+        return o && (eventOptionsSupported ? { capture: o.capture, passive: o.passive, once: o.once } : o.capture);
+    };
+
+    /**
+     * @license
+     * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+     * This code may only be used under the BSD style license found at
+     * http://polymer.github.io/LICENSE.txt
+     * The complete set of authors may be found at
+     * http://polymer.github.io/AUTHORS.txt
+     * The complete set of contributors may be found at
+     * http://polymer.github.io/CONTRIBUTORS.txt
+     * Code distributed by Google as part of the polymer project is also
+     * subject to an additional IP rights grant found at
+     * http://polymer.github.io/PATENTS.txt
+     */
+    /**
+     * Creates Parts when a template is instantiated.
+     */
+    var DefaultTemplateProcessor = function () {
+        function DefaultTemplateProcessor() {
+            classCallCheck(this, DefaultTemplateProcessor);
+        }
+
+        createClass(DefaultTemplateProcessor, [{
+            key: 'handleAttributeExpressions',
+
+            /**
+             * Create parts for an attribute-position binding, given the event, attribute
+             * name, and string literals.
+             *
+             * @param element The element containing the binding
+             * @param name  The attribute name
+             * @param strings The string literals. There are always at least two strings,
+             *   event for fully-controlled bindings with a single expression.
+             */
+            value: function handleAttributeExpressions(element, name, strings, options) {
+                var prefix = name[0];
+                if (prefix === '.') {
+                    var _comitter = new PropertyCommitter(element, name.slice(1), strings);
+                    return _comitter.parts;
+                }
+                if (prefix === '@') {
+                    return [new EventPart(element, name.slice(1), options.eventContext)];
+                }
+                if (prefix === '?') {
+                    return [new BooleanAttributePart(element, name.slice(1), strings)];
+                }
+                var comitter = new AttributeCommitter(element, name, strings);
+                return comitter.parts;
+            }
+            /**
+             * Create parts for a text-position binding.
+             * @param templateFactory
+             */
+
+        }, {
+            key: 'handleTextExpression',
+            value: function handleTextExpression(options) {
+                return new NodePart(options);
+            }
+        }]);
+        return DefaultTemplateProcessor;
+    }();
+    var defaultTemplateProcessor = new DefaultTemplateProcessor();
+
+    /**
+     * @license
+     * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+     * This code may only be used under the BSD style license found at
+     * http://polymer.github.io/LICENSE.txt
+     * The complete set of authors may be found at
+     * http://polymer.github.io/AUTHORS.txt
+     * The complete set of contributors may be found at
+     * http://polymer.github.io/CONTRIBUTORS.txt
+     * Code distributed by Google as part of the polymer project is also
+     * subject to an additional IP rights grant found at
+     * http://polymer.github.io/PATENTS.txt
+     */
+    /**
+     * The default TemplateFactory which caches Templates keyed on
+     * result.type and result.strings.
+     */
+    function templateFactory(result) {
+        var templateCache = templateCaches.get(result.type);
+        if (templateCache === undefined) {
+            templateCache = new Map();
+            templateCaches.set(result.type, templateCache);
+        }
+        var template = templateCache.get(result.strings);
+        if (template === undefined) {
+            template = new Template(result, result.getTemplateElement());
+            templateCache.set(result.strings, template);
+        }
+        return template;
+    }
+    // The first argument to JS template tags retain identity across multiple
+    // calls to a tag for the same literal, so we can cache work done per literal
+    // in a Map.
+    var templateCaches = new Map();
+
+    /**
+     * @license
+     * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+     * This code may only be used under the BSD style license found at
+     * http://polymer.github.io/LICENSE.txt
+     * The complete set of authors may be found at
+     * http://polymer.github.io/AUTHORS.txt
+     * The complete set of contributors may be found at
+     * http://polymer.github.io/CONTRIBUTORS.txt
+     * Code distributed by Google as part of the polymer project is also
+     * subject to an additional IP rights grant found at
+     * http://polymer.github.io/PATENTS.txt
+     */
+    var parts = new WeakMap();
+    /**
+     * Renders a template to a container.
+     *
+     * To update a container with new values, reevaluate the template literal and
+     * call `render` with the new result.
+     *
+     * @param result a TemplateResult created by evaluating a template tag like
+     *     `html` or `svg`.
+     * @param container A DOM parent to render to. The entire contents are either
+     *     replaced, or efficiently updated if the same result type was previous
+     *     rendered there.
+     * @param options RenderOptions for the entire render tree rendered to this
+     *     container. Render options must *not* change between renders to the same
+     *     container, as those changes will not effect previously rendered DOM.
+     */
+    var render = function render(result, container, options) {
+      var part = parts.get(container);
+      if (part === undefined) {
+        removeNodes(container, container.firstChild);
+        parts.set(container, part = new NodePart(_extends({ templateFactory: templateFactory }, options)));
+        part.appendInto(container);
+      }
+      part.setValue(result);
+      part.commit();
+    };
+
+    /**
+     * @license
+     * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+     * This code may only be used under the BSD style license found at
+     * http://polymer.github.io/LICENSE.txt
+     * The complete set of authors may be found at
+     * http://polymer.github.io/AUTHORS.txt
+     * The complete set of contributors may be found at
+     * http://polymer.github.io/CONTRIBUTORS.txt
+     * Code distributed by Google as part of the polymer project is also
+     * subject to an additional IP rights grant found at
+     * http://polymer.github.io/PATENTS.txt
+     */
+    /**
+     * Interprets a template literal as an HTML template that can efficiently
+     * render to and update a container.
+     */
+    var html = function html(strings) {
+      for (var _len = arguments.length, values = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        values[_key - 1] = arguments[_key];
+      }
+
+      return new TemplateResult(strings, values, 'html', defaultTemplateProcessor);
+    };
+
+    /**
+     * @license
+     * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+     * This code may only be used under the BSD style license found at
+     * http://polymer.github.io/LICENSE.txt
+     * The complete set of authors may be found at
+     * http://polymer.github.io/AUTHORS.txt
+     * The complete set of contributors may be found at
+     * http://polymer.github.io/CONTRIBUTORS.txt
+     * Code distributed by Google as part of the polymer project is also
+     * subject to an additional IP rights grant found at
+     * http://polymer.github.io/PATENTS.txt
+     */
+    var walkerNodeFilter = NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_COMMENT | NodeFilter.SHOW_TEXT;
+    /**
+     * Removes the list of nodes from a Template safely. In addition to removing
+     * nodes from the Template, the Template part indices are updated to match
+     * the mutated Template DOM.
+     *
+     * As the template is walked the removal state is tracked and
+     * part indices are adjusted as needed.
+     *
+     * div
+     *   div#1 (remove) <-- start removing (removing node is div#1)
+     *     div
+     *       div#2 (remove)  <-- continue removing (removing node is still div#1)
+     *         div
+     * div <-- stop removing since previous sibling is the removing node (div#1,
+     * removed 4 nodes)
+     */
+    function removeNodesFromTemplate(template, nodesToRemove) {
+        var content = template.element.content,
+            parts = template.parts;
+
+        var walker = document.createTreeWalker(content, walkerNodeFilter, null, false);
+        var partIndex = nextActiveIndexInTemplateParts(parts);
+        var part = parts[partIndex];
+        var nodeIndex = -1;
+        var removeCount = 0;
+        var nodesToRemoveInTemplate = [];
+        var currentRemovingNode = null;
+        while (walker.nextNode()) {
+            nodeIndex++;
+            var node = walker.currentNode;
+            // End removal if stepped past the removing node
+            if (node.previousSibling === currentRemovingNode) {
+                currentRemovingNode = null;
+            }
+            // A node to remove was found in the template
+            if (nodesToRemove.has(node)) {
+                nodesToRemoveInTemplate.push(node);
+                // Track node we're removing
+                if (currentRemovingNode === null) {
+                    currentRemovingNode = node;
+                }
+            }
+            // When removing, increment count by which to adjust subsequent part indices
+            if (currentRemovingNode !== null) {
+                removeCount++;
+            }
+            while (part !== undefined && part.index === nodeIndex) {
+                // If part is in a removed node deactivate it by setting index to -1 or
+                // adjust the index as needed.
+                part.index = currentRemovingNode !== null ? -1 : part.index - removeCount;
+                // go to the next active part.
+                partIndex = nextActiveIndexInTemplateParts(parts, partIndex);
+                part = parts[partIndex];
+            }
+        }
+        nodesToRemoveInTemplate.forEach(function (n) {
+            return n.parentNode.removeChild(n);
+        });
+    }
+    var countNodes = function countNodes(node) {
+        var count = node.nodeType === Node.DOCUMENT_FRAGMENT_NODE ? 0 : 1;
+        var walker = document.createTreeWalker(node, walkerNodeFilter, null, false);
+        while (walker.nextNode()) {
+            count++;
+        }
+        return count;
+    };
+    var nextActiveIndexInTemplateParts = function nextActiveIndexInTemplateParts(parts) {
+        var startIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
+
+        for (var i = startIndex + 1; i < parts.length; i++) {
+            var part = parts[i];
+            if (isTemplatePartActive(part)) {
+                return i;
+            }
+        }
+        return -1;
+    };
+    /**
+     * Inserts the given node into the Template, optionally before the given
+     * refNode. In addition to inserting the node into the Template, the Template
+     * part indices are updated to match the mutated Template DOM.
+     */
+    function insertNodeIntoTemplate(template, node) {
+        var refNode = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+        var content = template.element.content,
+            parts = template.parts;
+        // If there's no refNode, then put node at end of template.
+        // No part indices need to be shifted in this case.
+
+        if (refNode === null || refNode === undefined) {
+            content.appendChild(node);
+            return;
+        }
+        var walker = document.createTreeWalker(content, walkerNodeFilter, null, false);
+        var partIndex = nextActiveIndexInTemplateParts(parts);
+        var insertCount = 0;
+        var walkerIndex = -1;
+        while (walker.nextNode()) {
+            walkerIndex++;
+            var walkerNode = walker.currentNode;
+            if (walkerNode === refNode) {
+                insertCount = countNodes(node);
+                refNode.parentNode.insertBefore(node, refNode);
+            }
+            while (partIndex !== -1 && parts[partIndex].index === walkerIndex) {
+                // If we've inserted the node, simply adjust all subsequent parts
+                if (insertCount > 0) {
+                    while (partIndex !== -1) {
+                        parts[partIndex].index += insertCount;
+                        partIndex = nextActiveIndexInTemplateParts(parts, partIndex);
+                    }
+                    return;
+                }
+                partIndex = nextActiveIndexInTemplateParts(parts, partIndex);
+            }
+        }
+    }
+
+    /**
+     * @license
+     * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+     * This code may only be used under the BSD style license found at
+     * http://polymer.github.io/LICENSE.txt
+     * The complete set of authors may be found at
+     * http://polymer.github.io/AUTHORS.txt
+     * The complete set of contributors may be found at
+     * http://polymer.github.io/CONTRIBUTORS.txt
+     * Code distributed by Google as part of the polymer project is also
+     * subject to an additional IP rights grant found at
+     * http://polymer.github.io/PATENTS.txt
+     */
+    // Get a key to lookup in `templateCaches`.
+    var getTemplateCacheKey = function getTemplateCacheKey(type, scopeName) {
+        return type + '--' + scopeName;
+    };
+    var compatibleShadyCSSVersion = true;
+    if (typeof window.ShadyCSS === 'undefined') {
+        compatibleShadyCSSVersion = false;
+    } else if (typeof window.ShadyCSS.prepareTemplateDom === 'undefined') {
+        console.warn('Incompatible ShadyCSS version detected.' + 'Please update to at least @webcomponents/webcomponentsjs@2.0.2 and' + '@webcomponents/shadycss@1.3.1.');
+        compatibleShadyCSSVersion = false;
+    }
+    /**
+     * Template factory which scopes template DOM using ShadyCSS.
+     * @param scopeName {string}
+     */
+    var shadyTemplateFactory = function shadyTemplateFactory(scopeName) {
+        return function (result) {
+            var cacheKey = getTemplateCacheKey(result.type, scopeName);
+            var templateCache = templateCaches.get(cacheKey);
+            if (templateCache === undefined) {
+                templateCache = new Map();
+                templateCaches.set(cacheKey, templateCache);
+            }
+            var template = templateCache.get(result.strings);
+            if (template === undefined) {
+                var element = result.getTemplateElement();
+                if (compatibleShadyCSSVersion) {
+                    window.ShadyCSS.prepareTemplateDom(element, scopeName);
+                }
+                template = new Template(result, element);
+                templateCache.set(result.strings, template);
+            }
+            return template;
+        };
+    };
+    var TEMPLATE_TYPES = ['html', 'svg'];
+    /**
+     * Removes all style elements from Templates for the given scopeName.
+     */
+    var removeStylesFromLitTemplates = function removeStylesFromLitTemplates(scopeName) {
+        TEMPLATE_TYPES.forEach(function (type) {
+            var templates = templateCaches.get(getTemplateCacheKey(type, scopeName));
+            if (templates !== undefined) {
+                templates.forEach(function (template) {
+                    var content = template.element.content;
+                    // IE 11 doesn't support the iterable param Set constructor
+
+                    var styles = new Set();
+                    Array.from(content.querySelectorAll('style')).forEach(function (s) {
+                        styles.add(s);
+                    });
+                    removeNodesFromTemplate(template, styles);
+                });
+            }
+        });
+    };
+    var shadyRenderSet = new Set();
+    /**
+     * For the given scope name, ensures that ShadyCSS style scoping is performed.
+     * This is done just once per scope name so the fragment and template cannot
+     * be modified.
+     * (1) extracts styles from the rendered fragment and hands them to ShadyCSS
+     * to be scoped and appended to the document
+     * (2) removes style elements from all lit-html Templates for this scope name.
+     *
+     * Note, <style> elements can only be placed into templates for the
+     * initial rendering of the scope. If <style> elements are included in templates
+     * dynamically rendered to the scope (after the first scope render), they will
+     * not be scoped and the <style> will be left in the template and rendered
+     * output.
+     */
+    var prepareTemplateStyles = function prepareTemplateStyles(renderedDOM, template, scopeName) {
+        shadyRenderSet.add(scopeName);
+        // Move styles out of rendered DOM and store.
+        var styles = renderedDOM.querySelectorAll('style');
+        // If there are no styles, there's no work to do.
+        if (styles.length === 0) {
+            return;
+        }
+        var condensedStyle = document.createElement('style');
+        // Collect styles into a single style. This helps us make sure ShadyCSS
+        // manipulations will not prevent us from being able to fix up template
+        // part indices.
+        // NOTE: collecting styles is inefficient for browsers but ShadyCSS
+        // currently does this anyway. When it does not, this should be changed.
+        for (var i = 0; i < styles.length; i++) {
+            var style = styles[i];
+            style.parentNode.removeChild(style);
+            condensedStyle.textContent += style.textContent;
+        }
+        // Remove styles from nested templates in this scope.
+        removeStylesFromLitTemplates(scopeName);
+        // And then put the condensed style into the "root" template passed in as
+        // `template`.
+        insertNodeIntoTemplate(template, condensedStyle, template.element.content.firstChild);
+        // Note, it's important that ShadyCSS gets the template that `lit-html`
+        // will actually render so that it can update the style inside when
+        // needed (e.g. @apply native Shadow DOM case).
+        window.ShadyCSS.prepareTemplateStyles(template.element, scopeName);
+        if (window.ShadyCSS.nativeShadow) {
+            // When in native Shadow DOM, re-add styling to rendered content using
+            // the style ShadyCSS produced.
+            var _style = template.element.content.querySelector('style');
+            renderedDOM.insertBefore(_style.cloneNode(true), renderedDOM.firstChild);
+        } else {
+            // When not in native Shadow DOM, at this point ShadyCSS will have
+            // removed the style from the lit template and parts will be broken as a
+            // result. To fix this, we put back the style node ShadyCSS removed
+            // and then tell lit to remove that node from the template.
+            // NOTE, ShadyCSS creates its own style so we can safely add/remove
+            // `condensedStyle` here.
+            template.element.content.insertBefore(condensedStyle, template.element.content.firstChild);
+            var removes = new Set();
+            removes.add(condensedStyle);
+            removeNodesFromTemplate(template, removes);
+        }
+    };
+    var render$1 = function render$$1(result, container, options) {
+        var scopeName = options.scopeName;
+        var hasRendered = parts.has(container);
+        render(result, container, _extends({ templateFactory: shadyTemplateFactory(scopeName) }, options));
+        // When rendering a TemplateResult, scope the template with ShadyCSS
+        if (container instanceof ShadowRoot && compatibleShadyCSSVersion && result instanceof TemplateResult) {
+            // Scope the element template one time only for this scope.
+            if (!shadyRenderSet.has(scopeName)) {
+                var part = parts.get(container);
+                var instance = part.value;
+                prepareTemplateStyles(container, instance.template, scopeName);
+            }
+            // Update styling if this is the initial render to this container.
+            if (!hasRendered) {
+                window.ShadyCSS.styleElement(container.host);
+            }
+        }
+    };
+
+    /**
+     * @license
+     * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+     * This code may only be used under the BSD style license found at
+     * http://polymer.github.io/LICENSE.txt
+     * The complete set of authors may be found at
+     * http://polymer.github.io/AUTHORS.txt
+     * The complete set of contributors may be found at
+     * http://polymer.github.io/CONTRIBUTORS.txt
+     * Code distributed by Google as part of the polymer project is also
+     * subject to an additional IP rights grant found at
+     * http://polymer.github.io/PATENTS.txt
+     */
+    // serializer/deserializers for boolean attribute
+    var fromBooleanAttribute = function fromBooleanAttribute(value) {
+        return value !== null;
+    };
+    var toBooleanAttribute = function toBooleanAttribute(value) {
+        return value ? '' : null;
+    };
+    /**
+     * Change function that returns true if `value` is different from `oldValue`.
+     * This method is used as the default for a property's `hasChanged` function.
+     */
+    var notEqual = function notEqual(value, old) {
+        // This ensures (old==NaN, value==NaN) always returns false
+        return old !== value && (old === old || value === value);
+    };
+    var defaultPropertyDeclaration = {
+        attribute: true,
+        type: String,
+        reflect: false,
+        hasChanged: notEqual
+    };
+    var microtaskPromise = new Promise(function (resolve) {
+        return resolve(true);
+    });
+    var STATE_HAS_UPDATED = 1;
+    var STATE_UPDATE_REQUESTED = 1 << 2;
+    var STATE_IS_REFLECTING = 1 << 3;
+    /**
+     * Base element class which manages element properties and attributes. When
+     * properties change, the `update` method is asynchronously called. This method
+     * should be supplied by subclassers to render updates as desired.
+     */
+    var UpdatingElement = function (_HTMLElement) {
+        inherits(UpdatingElement, _HTMLElement);
+
+        function UpdatingElement() {
+            classCallCheck(this, UpdatingElement);
+
+            var _this = possibleConstructorReturn(this, (UpdatingElement.__proto__ || Object.getPrototypeOf(UpdatingElement)).call(this));
+
+            _this._updateState = 0;
+            _this._instanceProperties = undefined;
+            _this._updatePromise = microtaskPromise;
+            /**
+             * Map with keys for any properties that have changed since the last
+             * update cycle with previous values.
+             */
+            _this._changedProperties = new Map();
+            /**
+             * Map with keys of properties that should be reflected when updated.
+             */
+            _this._reflectingProperties = undefined;
+            _this.initialize();
+            return _this;
+        }
+        /**
+         * Returns a list of attributes corresponding to the registered properties.
+         */
+
+
+        createClass(UpdatingElement, [{
+            key: 'initialize',
+
+            /**
+             * Performs element initialization. By default this calls `createRenderRoot`
+             * to create the element `renderRoot` node and captures any pre-set values for
+             * registered properties.
+             */
+            value: function initialize() {
+                this.renderRoot = this.createRenderRoot();
+                this._saveInstanceProperties();
+            }
+            /**
+             * Fixes any properties set on the instance before upgrade time.
+             * Otherwise these would shadow the accessor and break these properties.
+             * The properties are stored in a Map which is played back after the
+             * constructor runs. Note, on very old versions of Safari (<=9) or Chrome
+             * (<=41), properties created for native platform properties like (`id` or
+             * `name`) may not have default values set in the element constructor. On
+             * these browsers native properties appear on instances and therefore their
+             * default value will overwrite any element default (e.g. if the element sets
+             * this.id = 'id' in the constructor, the 'id' will become '' since this is
+             * the native platform default).
+             */
+
+        }, {
+            key: '_saveInstanceProperties',
+            value: function _saveInstanceProperties() {
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
+
+                try {
+                    for (var _iterator = this.constructor._classProperties[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                        var _step$value = slicedToArray(_step.value, 1),
+                            p = _step$value[0];
+
+                        if (this.hasOwnProperty(p)) {
+                            var value = this[p];
+                            delete this[p];
+                            if (!this._instanceProperties) {
+                                this._instanceProperties = new Map();
+                            }
+                            this._instanceProperties.set(p, value);
+                        }
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return) {
+                            _iterator.return();
+                        }
+                    } finally {
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
+                }
+            }
+            /**
+             * Applies previously saved instance properties.
+             */
+
+        }, {
+            key: '_applyInstanceProperties',
+            value: function _applyInstanceProperties() {
+                var _iteratorNormalCompletion2 = true;
+                var _didIteratorError2 = false;
+                var _iteratorError2 = undefined;
+
+                try {
+                    for (var _iterator2 = this._instanceProperties[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                        var _step2$value = slicedToArray(_step2.value, 2),
+                            p = _step2$value[0],
+                            v = _step2$value[1];
+
+                        this[p] = v;
+                    }
+                } catch (err) {
+                    _didIteratorError2 = true;
+                    _iteratorError2 = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                            _iterator2.return();
+                        }
+                    } finally {
+                        if (_didIteratorError2) {
+                            throw _iteratorError2;
+                        }
+                    }
+                }
+
+                this._instanceProperties = undefined;
+            }
+            /**
+             * Returns the node into which the element should render and by default
+             * creates and returns an open shadowRoot. Implement to customize where the
+             * element's DOM is rendered. For example, to render into the element's
+             * childNodes, return `this`.
+             * @returns {Element|DocumentFragment} Returns a node into which to render.
+             */
+
+        }, {
+            key: 'createRenderRoot',
+            value: function createRenderRoot() {
+                return this.attachShadow({ mode: 'open' });
+            }
+            /**
+             * Uses ShadyCSS to keep element DOM updated.
+             */
+
+        }, {
+            key: 'connectedCallback',
+            value: function connectedCallback() {
+                if (this._updateState & STATE_HAS_UPDATED) {
+                    if (window.ShadyCSS !== undefined) {
+                        window.ShadyCSS.styleElement(this);
+                    }
+                } else {
+                    this.requestUpdate();
+                }
+            }
+            /**
+             * Allows for `super.disconnectedCallback()` in extensions while
+             * reserving the possibility of making non-breaking feature additions
+             * when disconnecting at some point in the future.
+             */
+
+        }, {
+            key: 'disconnectedCallback',
+            value: function disconnectedCallback() {}
+            /**
+             * Synchronizes property values when attributes change.
+             */
+
+        }, {
+            key: 'attributeChangedCallback',
+            value: function attributeChangedCallback(name, old, value) {
+                if (old !== value) {
+                    this._attributeToProperty(name, value);
+                }
+            }
+        }, {
+            key: '_propertyToAttribute',
+            value: function _propertyToAttribute(name, value) {
+                var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : defaultPropertyDeclaration;
+
+                var ctor = this.constructor;
+                var attrValue = ctor._propertyValueToAttribute(value, options);
+                if (attrValue !== undefined) {
+                    var attr = ctor._attributeNameForProperty(name, options);
+                    if (attr !== undefined) {
+                        // Track if the property is being reflected to avoid
+                        // setting the property again via `attributeChangedCallback`. Note:
+                        // 1. this takes advantage of the fact that the callback is synchronous.
+                        // 2. will behave incorrectly if multiple attributes are in the reaction
+                        // stack at time of calling. However, since we process attributes
+                        // in `update` this should not be possible (or an extreme corner case
+                        // that we'd like to discover).
+                        // mark state reflecting
+                        this._updateState = this._updateState | STATE_IS_REFLECTING;
+                        if (attrValue === null) {
+                            this.removeAttribute(attr);
+                        } else {
+                            this.setAttribute(attr, attrValue);
+                        }
+                        // mark state not reflecting
+                        this._updateState = this._updateState & ~STATE_IS_REFLECTING;
+                    }
+                }
+            }
+        }, {
+            key: '_attributeToProperty',
+            value: function _attributeToProperty(name, value) {
+                // Use tracking info to avoid deserializing attribute value if it was
+                // just set from a property setter.
+                if (!(this._updateState & STATE_IS_REFLECTING)) {
+                    var ctor = this.constructor;
+                    var propName = ctor._attributeToPropertyMap.get(name);
+                    if (propName !== undefined) {
+                        var options = ctor._classProperties.get(propName);
+                        this[propName] = ctor._propertyValueFromAttribute(value, options);
+                    }
+                }
+            }
+            /**
+             * Requests an update which is processed asynchronously. This should
+             * be called when an element should update based on some state not triggered
+             * by setting a property. In this case, pass no arguments. It should also be
+             * called when manually implementing a property setter. In this case, pass the
+             * property `name` and `oldValue` to ensure that any configured property
+             * options are honored. Returns the `updateComplete` Promise which is resolved
+             * when the update completes.
+             *
+             * @param name {PropertyKey} (optional) name of requesting property
+             * @param oldValue {any} (optional) old value of requesting property
+             * @returns {Promise} A Promise that is resolved when the update completes.
+             */
+
+        }, {
+            key: 'requestUpdate',
+            value: function requestUpdate(name, oldValue) {
+                if (name !== undefined) {
+                    var options = this.constructor._classProperties.get(name) || defaultPropertyDeclaration;
+                    return this._requestPropertyUpdate(name, oldValue, options);
+                }
+                return this._invalidate();
+            }
+            /**
+             * Requests an update for a specific property and records change information.
+             * @param name {PropertyKey} name of requesting property
+             * @param oldValue {any} old value of requesting property
+             * @param options {PropertyDeclaration}
+             */
+
+        }, {
+            key: '_requestPropertyUpdate',
+            value: function _requestPropertyUpdate(name, oldValue, options) {
+                if (!this.constructor._valueHasChanged(this[name], oldValue, options.hasChanged)) {
+                    return this.updateComplete;
+                }
+                // track old value when changing.
+                if (!this._changedProperties.has(name)) {
+                    this._changedProperties.set(name, oldValue);
+                }
+                // add to reflecting properties set
+                if (options.reflect === true) {
+                    if (this._reflectingProperties === undefined) {
+                        this._reflectingProperties = new Map();
+                    }
+                    this._reflectingProperties.set(name, options);
+                }
+                return this._invalidate();
+            }
+            /**
+             * Invalidates the element causing it to asynchronously update regardless
+             * of whether or not any property changes are pending. This method is
+             * automatically called when any registered property changes.
+             */
+
+        }, {
+            key: '_invalidate',
+            value: async function _invalidate() {
+                if (!this._hasRequestedUpdate) {
+                    // mark state updating...
+                    this._updateState = this._updateState | STATE_UPDATE_REQUESTED;
+                    var resolver = void 0;
+                    var previousValidatePromise = this._updatePromise;
+                    this._updatePromise = new Promise(function (r) {
+                        return resolver = r;
+                    });
+                    await previousValidatePromise;
+                    this._validate();
+                    resolver(!this._hasRequestedUpdate);
+                }
+                return this.updateComplete;
+            }
+        }, {
+            key: '_validate',
+
+            /**
+             * Validates the element by updating it.
+             */
+            value: function _validate() {
+                // Mixin instance properties once, if they exist.
+                if (this._instanceProperties) {
+                    this._applyInstanceProperties();
+                }
+                if (this.shouldUpdate(this._changedProperties)) {
+                    var changedProperties = this._changedProperties;
+                    this.update(changedProperties);
+                    this._markUpdated();
+                    if (!(this._updateState & STATE_HAS_UPDATED)) {
+                        this._updateState = this._updateState | STATE_HAS_UPDATED;
+                        this.firstUpdated(changedProperties);
+                    }
+                    this.updated(changedProperties);
+                } else {
+                    this._markUpdated();
+                }
+            }
+        }, {
+            key: '_markUpdated',
+            value: function _markUpdated() {
+                this._changedProperties = new Map();
+                this._updateState = this._updateState & ~STATE_UPDATE_REQUESTED;
+            }
+            /**
+             * Returns a Promise that resolves when the element has completed updating.
+             * The Promise value is a boolean that is `true` if the element completed the
+             * update without triggering another update. The Promise result is `false` if
+             * a property was set inside `updated()`. This getter can be implemented to
+             * await additional state. For example, it is sometimes useful to await a
+             * rendered element before fulfilling this Promise. To do this, first await
+             * `super.updateComplete` then any subsequent state.
+             *
+             * @returns {Promise} The Promise returns a boolean that indicates if the
+             * update resolved without triggering another update.
+             */
+
+        }, {
+            key: 'shouldUpdate',
+
+            /**
+             * Controls whether or not `update` should be called when the element requests
+             * an update. By default, this method always returns `true`, but this can be
+             * customized to control when to update.
+             *
+             * * @param _changedProperties Map of changed properties with old values
+             */
+            value: function shouldUpdate(_changedProperties) {
+                return true;
+            }
+            /**
+             * Updates the element. This method reflects property values to attributes.
+             * It can be overridden to render and keep updated DOM in the element's
+             * `renderRoot`. Setting properties inside this method will *not* trigger
+             * another update.
+             *
+             * * @param _changedProperties Map of changed properties with old values
+             */
+
+        }, {
+            key: 'update',
+            value: function update(_changedProperties) {
+                if (this._reflectingProperties !== undefined && this._reflectingProperties.size > 0) {
+                    var _iteratorNormalCompletion3 = true;
+                    var _didIteratorError3 = false;
+                    var _iteratorError3 = undefined;
+
+                    try {
+                        for (var _iterator3 = this._reflectingProperties[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                            var _step3$value = slicedToArray(_step3.value, 2),
+                                k = _step3$value[0],
+                                v = _step3$value[1];
+
+                            this._propertyToAttribute(k, this[k], v);
+                        }
+                    } catch (err) {
+                        _didIteratorError3 = true;
+                        _iteratorError3 = err;
+                    } finally {
+                        try {
+                            if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                                _iterator3.return();
+                            }
+                        } finally {
+                            if (_didIteratorError3) {
+                                throw _iteratorError3;
+                            }
+                        }
+                    }
+
+                    this._reflectingProperties = undefined;
+                }
+            }
+            /**
+             * Invoked whenever the element is updated. Implement to perform
+             * post-updating tasks via DOM APIs, for example, focusing an element.
+             *
+             * Setting properties inside this method will trigger the element to update
+             * again after this update cycle completes.
+             *
+             * * @param _changedProperties Map of changed properties with old values
+             */
+
+        }, {
+            key: 'updated',
+            value: function updated(_changedProperties) {}
+            /**
+             * Invoked when the element is first updated. Implement to perform one time
+             * work on the element after update.
+             *
+             * Setting properties inside this method will trigger the element to update
+             * again after this update cycle completes.
+             *
+             * * @param _changedProperties Map of changed properties with old values
+             */
+
+        }, {
+            key: 'firstUpdated',
+            value: function firstUpdated(_changedProperties) {}
+        }, {
+            key: '_hasRequestedUpdate',
+            get: function get$$1() {
+                return this._updateState & STATE_UPDATE_REQUESTED;
+            }
+        }, {
+            key: 'updateComplete',
+            get: function get$$1() {
+                return this._updatePromise;
+            }
+        }], [{
+            key: 'createProperty',
+
+            /**
+             * Creates a property accessor on the element prototype if one does not exist.
+             * The property setter calls the property's `hasChanged` property option
+             * or uses a strict identity check to determine whether or not to request
+             * an update.
+             */
+            value: function createProperty(name) {
+                var _this2 = this;
+
+                var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultPropertyDeclaration;
+
+                // ensure private storage for property declarations.
+                if (!this.hasOwnProperty('_classProperties')) {
+                    this._classProperties = new Map();
+                    // NOTE: Workaround IE11 not supporting Map constructor argument.
+                    var superProperties = Object.getPrototypeOf(this)._classProperties;
+                    if (superProperties !== undefined) {
+                        superProperties.forEach(function (v, k) {
+                            return _this2._classProperties.set(k, v);
+                        });
+                    }
+                }
+                this._classProperties.set(name, options);
+                // Allow user defined accessors by not replacing an existing own-property
+                // accessor.
+                if (this.prototype.hasOwnProperty(name)) {
+                    return;
+                }
+                var key = (typeof name === 'undefined' ? 'undefined' : _typeof(name)) === 'symbol' ? Symbol() : '__' + name;
+                Object.defineProperty(this.prototype, name, {
+                    get: function get$$1() {
+                        return this[key];
+                    },
+                    set: function set$$1(value) {
+                        var oldValue = this[name];
+                        this[key] = value;
+                        this._requestPropertyUpdate(name, oldValue, options);
+                    },
+
+                    configurable: true,
+                    enumerable: true
+                });
+            }
+            /**
+             * Creates property accessors for registered properties and ensures
+             * any superclasses are also finalized.
+             */
+
+        }, {
+            key: '_finalize',
+            value: function _finalize() {
+                if (this.hasOwnProperty('_finalized') && this._finalized) {
+                    return;
+                }
+                // finalize any superclasses
+                var superCtor = Object.getPrototypeOf(this);
+                if (typeof superCtor._finalize === 'function') {
+                    superCtor._finalize();
+                }
+                this._finalized = true;
+                // initialize Map populated in observedAttributes
+                this._attributeToPropertyMap = new Map();
+                // make any properties
+                var props = this.properties;
+                // support symbols in properties (IE11 does not support this)
+                var propKeys = [].concat(toConsumableArray(Object.getOwnPropertyNames(props)), toConsumableArray(typeof Object.getOwnPropertySymbols === 'function' ? Object.getOwnPropertySymbols(props) : []));
+                var _iteratorNormalCompletion4 = true;
+                var _didIteratorError4 = false;
+                var _iteratorError4 = undefined;
+
+                try {
+                    for (var _iterator4 = propKeys[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                        var p = _step4.value;
+
+                        // note, use of `any` is due to TypeSript lack of support for symbol in
+                        // index types
+                        this.createProperty(p, props[p]);
+                    }
+                } catch (err) {
+                    _didIteratorError4 = true;
+                    _iteratorError4 = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion4 && _iterator4.return) {
+                            _iterator4.return();
+                        }
+                    } finally {
+                        if (_didIteratorError4) {
+                            throw _iteratorError4;
+                        }
+                    }
+                }
+            }
+            /**
+             * Returns the property name for the given attribute `name`.
+             */
+
+        }, {
+            key: '_attributeNameForProperty',
+            value: function _attributeNameForProperty(name, options) {
+                var attribute = options !== undefined && options.attribute;
+                return attribute === false ? undefined : typeof attribute === 'string' ? attribute : typeof name === 'string' ? name.toLowerCase() : undefined;
+            }
+            /**
+             * Returns true if a property should request an update.
+             * Called when a property value is set and uses the `hasChanged`
+             * option for the property if present or a strict identity check.
+             */
+
+        }, {
+            key: '_valueHasChanged',
+            value: function _valueHasChanged(value, old) {
+                var hasChanged = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : notEqual;
+
+                return hasChanged(value, old);
+            }
+            /**
+             * Returns the property value for the given attribute value.
+             * Called via the `attributeChangedCallback` and uses the property's `type`
+             * or `type.fromAttribute` property option.
+             */
+
+        }, {
+            key: '_propertyValueFromAttribute',
+            value: function _propertyValueFromAttribute(value, options) {
+                var type = options && options.type;
+                if (type === undefined) {
+                    return value;
+                }
+                // Note: special case `Boolean` so users can use it as a `type`.
+                var fromAttribute = type === Boolean ? fromBooleanAttribute : typeof type === 'function' ? type : type.fromAttribute;
+                return fromAttribute ? fromAttribute(value) : value;
+            }
+            /**
+             * Returns the attribute value for the given property value. If this
+             * returns undefined, the property will *not* be reflected to an attribute.
+             * If this returns null, the attribute will be removed, otherwise the
+             * attribute will be set to the value.
+             * This uses the property's `reflect` and `type.toAttribute` property options.
+             */
+
+        }, {
+            key: '_propertyValueToAttribute',
+            value: function _propertyValueToAttribute(value, options) {
+                if (options === undefined || options.reflect === undefined) {
+                    return;
+                }
+                // Note: special case `Boolean` so users can use it as a `type`.
+                var toAttribute = options.type === Boolean ? toBooleanAttribute : options.type && options.type.toAttribute || String;
+                return toAttribute(value);
+            }
+        }, {
+            key: 'observedAttributes',
+            get: function get$$1() {
+                // note: piggy backing on this to ensure we're _finalized.
+                this._finalize();
+                var attributes = [];
+                var _iteratorNormalCompletion5 = true;
+                var _didIteratorError5 = false;
+                var _iteratorError5 = undefined;
+
+                try {
+                    for (var _iterator5 = this._classProperties[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+                        var _step5$value = slicedToArray(_step5.value, 2),
+                            p = _step5$value[0],
+                            v = _step5$value[1];
+
+                        var attr = this._attributeNameForProperty(p, v);
+                        if (attr !== undefined) {
+                            this._attributeToPropertyMap.set(attr, p);
+                            attributes.push(attr);
+                        }
+                    }
+                } catch (err) {
+                    _didIteratorError5 = true;
+                    _iteratorError5 = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion5 && _iterator5.return) {
+                            _iterator5.return();
+                        }
+                    } finally {
+                        if (_didIteratorError5) {
+                            throw _iteratorError5;
+                        }
+                    }
+                }
+
+                return attributes;
+            }
+        }]);
+        return UpdatingElement;
+    }(HTMLElement);
+    /**
+     * Maps attribute names to properties; for example `foobar` attribute
+     * to `fooBar` property.
+     */
+    UpdatingElement._attributeToPropertyMap = new Map();
+    /**
+     * Marks class as having finished creating properties.
+     */
+    UpdatingElement._finalized = true;
+    /**
+     * Memoized list of all class properties, including any superclass properties.
+     */
+    UpdatingElement._classProperties = new Map();
+    UpdatingElement.properties = {};
+
+    /**
+     * @license
+     * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+     * This code may only be used under the BSD style license found at
+     * http://polymer.github.io/LICENSE.txt
+     * The complete set of authors may be found at
+     * http://polymer.github.io/AUTHORS.txt
+     * The complete set of contributors may be found at
+     * http://polymer.github.io/CONTRIBUTORS.txt
+     * Code distributed by Google as part of the polymer project is also
+     * subject to an additional IP rights grant found at
+     * http://polymer.github.io/PATENTS.txt
+     */
+    /**
+     * Class decorator factory that defines the decorated class as a custom element.
+     *
+     * @param tagName the name of the custom element to define
+     *
+     * In TypeScript, the `tagName` passed to `customElement` must be a key of the
+     * `HTMLElementTagNameMap` interface. To add your element to the interface,
+     * declare the interface in this module:
+     *
+     *     @customElement('my-element')
+     *     export class MyElement extends LitElement {}
+     *
+     *     declare global {
+     *       interface HTMLElementTagNameMap {
+     *         'my-element': MyElement;
+     *       }
+     *     }
+     *
+     */
+    var customElement = function customElement(tagName) {
+      return function (clazz) {
+        window.customElements.define(tagName, clazz);
+        // Cast as any because TS doesn't recognize the return type as being a
+        // subtype of the decorated class when clazz is typed as
+        // `Constructor<HTMLElement>` for some reason. `Constructor<HTMLElement>`
+        // is helpful to make sure the decorator is applied to elements however.
+        return clazz;
+      };
+    };
+    /**
+     * A property decorator which creates a LitElement property which reflects a
+     * corresponding attribute value. A `PropertyDeclaration` may optionally be
+     * supplied to configure property features.
+     */
+    var property = function property(options) {
+      return function (proto, name) {
+        proto.constructor.createProperty(name, options);
+      };
+    };
+    /**
+     * A property decorator that converts a class property into a getter that
+     * executes a querySelector on the element's renderRoot.
+     */
+    var query = _query(function (target, selector) {
+      return target.querySelector(selector);
+    });
+    /**
+     * Base-implementation of `@query` and `@queryAll` decorators.
+     *
+     * @param queryFn exectute a `selector` (ie, querySelector or querySelectorAll)
+     * against `target`.
+     */
+    function _query(queryFn) {
+      return function (selector) {
+        return function (proto, propName) {
+          Object.defineProperty(proto, propName, {
+            get: function get$$1() {
+              return queryFn(this.renderRoot, selector);
+            },
+
+            enumerable: true,
+            configurable: true
+          });
+        };
+      };
+    }
+
+    /**
+     * @license
+     * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+     * This code may only be used under the BSD style license found at
+     * http://polymer.github.io/LICENSE.txt
+     * The complete set of authors may be found at
+     * http://polymer.github.io/AUTHORS.txt
+     * The complete set of contributors may be found at
+     * http://polymer.github.io/CONTRIBUTORS.txt
+     * Code distributed by Google as part of the polymer project is also
+     * subject to an additional IP rights grant found at
+     * http://polymer.github.io/PATENTS.txt
+     */
+    var LitElement = function (_UpdatingElement) {
+      inherits(LitElement, _UpdatingElement);
+
+      function LitElement() {
+        classCallCheck(this, LitElement);
+        return possibleConstructorReturn(this, (LitElement.__proto__ || Object.getPrototypeOf(LitElement)).apply(this, arguments));
+      }
+
+      createClass(LitElement, [{
+        key: 'update',
+
+        /**
+         * Updates the element. This method reflects property values to attributes
+         * and calls `render` to render DOM via lit-html. Setting properties inside
+         * this method will *not* trigger another update.
+         * * @param _changedProperties Map of changed properties with old values
+         */
+        value: function update(changedProperties) {
+          get(LitElement.prototype.__proto__ || Object.getPrototypeOf(LitElement.prototype), 'update', this).call(this, changedProperties);
+          var templateResult = this.render();
+          if (templateResult instanceof TemplateResult) {
+            this.constructor.render(templateResult, this.renderRoot, { scopeName: this.localName, eventContext: this });
+          }
+        }
+        /**
+         * Invoked on each update to perform rendering tasks. This method must return
+         * a lit-html TemplateResult. Setting properties inside this method will *not*
+         * trigger the element to update.
+         * @returns {TemplateResult} Must return a lit-html TemplateResult.
+         */
+
+      }, {
+        key: 'render',
+        value: function render$$1() {}
+      }]);
+      return LitElement;
+    }(UpdatingElement);
+    /**
+     * Render method used to render the lit-html TemplateResult to the element's
+     * DOM.
+     * @param {TemplateResult} Template to render.
+     * @param {Element|DocumentFragment} Node into which to render.
+     * @param {String} Element name.
+     */
+    LitElement.render = render$1;
+
+    /**
+     * @license
+     * Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
+     * This code may only be used under the BSD style license found at
+     * http://polymer.github.io/LICENSE.txt
+     * The complete set of authors may be found at
+     * http://polymer.github.io/AUTHORS.txt
+     * The complete set of contributors may be found at
+     * http://polymer.github.io/CONTRIBUTORS.txt
+     * Code distributed by Google as part of the polymer project is also
+     * subject to an additional IP rights grant found at
+     * http://polymer.github.io/PATENTS.txt
+     */
+    // On IE11, classList.toggle doesn't accept a second argument.
+    // Since this is so minor, we just polyfill it.
+    if (window.navigator.userAgent.match('Trident')) {
+        DOMTokenList.prototype.toggle = function (token, force) {
+            if (force === undefined || force) {
+                this.add(token);
+            } else {
+                this.remove(token);
+            }
+            return force === undefined ? true : force;
+        };
+    }
+    /**
+     * Stores the ClassInfo object applied to a given AttributePart.
+     * Used to unset existing values when a new ClassInfo object is applied.
+     */
+    var classMapCache = new WeakMap();
+    /**
+     * Stores AttributeParts that have had static classes applied (e.g. `foo` in
+     * class="foo ${classMap()}"). Static classes are applied only the first time
+     * the directive is run on a part.
+     */
+    // Note, could be a WeakSet, but prefer not requiring this polyfill.
+    var classMapStatics = new WeakMap();
+    /**
+     * A directive that applies CSS classes. This must be used in the `class`
+     * attribute and must be the only part used in the attribute. It takes each
+     * property in the `classInfo` argument and adds the property name to the
+     * element's `classList` if the property value is truthy; if the property value
+     * is falsey, the property name is removed from the element's `classList`. For
+     * example
+     * `{foo: bar}` applies the class `foo` if the value of `bar` is truthy.
+     * @param classInfo {ClassInfo}
+     */
+    var classMap = function classMap(classInfo) {
+        return directive(function (part) {
+            if (!(part instanceof AttributePart) || part instanceof PropertyPart || part.committer.name !== 'class' || part.committer.parts.length > 1) {
+                throw new Error('The `classMap` directive must be used in the `class` attribute ' + 'and must be the only part in the attribute.');
+            }
+            // handle static classes
+            if (!classMapStatics.has(part)) {
+                part.committer.element.className = part.committer.strings.join(' ');
+                classMapStatics.set(part, true);
+            }
+            // remove old classes that no longer apply
+            var oldInfo = classMapCache.get(part);
+            for (var name in oldInfo) {
+                if (!(name in classInfo)) {
+                    part.committer.element.classList.remove(name);
+                }
+            }
+            // add new classes
+            for (var _name in classInfo) {
+                if (!oldInfo || oldInfo[_name] !== classInfo[_name]) {
+                    // We explicitly want a loose truthy check here because
+                    // it seems more convenient that '' and 0 are skipped.
+                    part.committer.element.classList.toggle(_name, Boolean(classInfo[_name]));
+                }
+            }
+            classMapCache.set(part, classInfo);
+        });
+    };
+
+    /**
+    @license
+    Copyright 2018 Google Inc. All Rights Reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    */
+    var BaseElement = function (_LitElement) {
+        inherits(BaseElement, _LitElement);
+
+        function BaseElement() {
+            classCallCheck(this, BaseElement);
+            return possibleConstructorReturn(this, (BaseElement.__proto__ || Object.getPrototypeOf(BaseElement)).apply(this, arguments));
+        }
+
+        createClass(BaseElement, [{
+            key: 'createAdapter',
+
+            /**
+             * Create the adapter for the `mdcFoundation`.
+             *
+             * To extend, spread the super class version into you class:
+             * `{...super.createAdapter(), foo() => {}}`
+             */
+            value: function createAdapter() {
+                var _this2 = this;
+
+                return {
+                    addClass: function addClass(className) {
+                        _this2.mdcRoot.classList.add(className);
+                    },
+                    removeClass: function removeClass(className) {
+                        _this2.mdcRoot.classList.remove(className);
+                    },
+                    hasClass: function hasClass(className) {
+                        return _this2.mdcRoot.classList.contains(className);
+                    }
+                };
+            }
+            /**
+             * Create and attach the MDC Foundation to the instance
+             */
+
+        }, {
+            key: 'createFoundation',
+            value: function createFoundation() {
+                if (this.mdcFoundation) {
+                    this.mdcFoundation.destroy();
+                }
+                this.mdcFoundation = new this.mdcFoundationClass(this.createAdapter());
+                this.mdcFoundation.init();
+            }
+        }, {
+            key: 'firstUpdated',
+            value: function firstUpdated() {
+                this.createFoundation();
+            }
+        }]);
+        return BaseElement;
+    }(LitElement);
+
+    /**
+     * @license
+     * Copyright 2018 Google Inc.
+     *
+     * Permission is hereby granted, free of charge, to any person obtaining a copy
+     * of this software and associated documentation files (the "Software"), to deal
+     * in the Software without restriction, including without limitation the rights
+     * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+     * copies of the Software, and to permit persons to whom the Software is
+     * furnished to do so, subject to the following conditions:
+     *
+     * The above copyright notice and this permission notice shall be included in
+     * all copies or substantial portions of the Software.
+     *
+     * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+     * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+     * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+     * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+     * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+     * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+     * THE SOFTWARE.
+     */
+
+    /* eslint no-unused-vars: [2, {"args": "none"}] */
+
+    /**
+     * Adapter for MDC Top App Bar
+     *
+     * Defines the shape of the adapter expected by the foundation. Implement this
+     * adapter to integrate the Top App Bar into your framework. See
+     * https://github.com/material-components/material-components-web/blob/master/docs/authoring-components.md
+     * for more information.
+     *
+     * @record
+     */
+    var MDCTopAppBarAdapter = function () {
+      function MDCTopAppBarAdapter() {
+        classCallCheck(this, MDCTopAppBarAdapter);
+      }
+
+      createClass(MDCTopAppBarAdapter, [{
+        key: "addClass",
+
+        /**
+         * Adds a class to the root Element.
+         * @param {string} className
+         */
+        value: function addClass(className) {}
+
+        /**
+         * Removes a class from the root Element.
+         * @param {string} className
+         */
+
+      }, {
+        key: "removeClass",
+        value: function removeClass(className) {}
+
+        /**
+         * Returns true if the root Element contains the given class.
+         * @param {string} className
+         * @return {boolean}
+         */
+
+      }, {
+        key: "hasClass",
+        value: function hasClass(className) {}
+
+        /**
+         * Sets the specified inline style property on the root Element to the given value.
+         * @param {string} property
+         * @param {string} value
+         */
+
+      }, {
+        key: "setStyle",
+        value: function setStyle(property, value) {}
+
+        /**
+         * Gets the height of the top app bar.
+         * @return {number}
+         */
+
+      }, {
+        key: "getTopAppBarHeight",
+        value: function getTopAppBarHeight() {}
+
+        /**
+         * Registers an event handler on the navigation icon element for a given event.
+         * @param {string} type
+         * @param {function(!Event): undefined} handler
+         */
+
+      }, {
+        key: "registerNavigationIconInteractionHandler",
+        value: function registerNavigationIconInteractionHandler(type, handler) {}
+
+        /**
+         * Deregisters an event handler on the navigation icon element for a given event.
+         * @param {string} type
+         * @param {function(!Event): undefined} handler
+         */
+
+      }, {
+        key: "deregisterNavigationIconInteractionHandler",
+        value: function deregisterNavigationIconInteractionHandler(type, handler) {}
+
+        /**
+         * Emits an event when the navigation icon is clicked.
+         */
+
+      }, {
+        key: "notifyNavigationIconClicked",
+        value: function notifyNavigationIconClicked() {}
+
+        /** @param {function(!Event)} handler */
+
+      }, {
+        key: "registerScrollHandler",
+        value: function registerScrollHandler(handler) {}
+
+        /** @param {function(!Event)} handler */
+
+      }, {
+        key: "deregisterScrollHandler",
+        value: function deregisterScrollHandler(handler) {}
+
+        /** @param {function(!Event)} handler */
+
+      }, {
+        key: "registerResizeHandler",
+        value: function registerResizeHandler(handler) {}
+
+        /** @param {function(!Event)} handler */
+
+      }, {
+        key: "deregisterResizeHandler",
+        value: function deregisterResizeHandler(handler) {}
+
+        /** @return {number} */
+
+      }, {
+        key: "getViewportScrollY",
+        value: function getViewportScrollY() {}
+
+        /** @return {number} */
+
+      }, {
+        key: "getTotalActionItems",
+        value: function getTotalActionItems() {}
+      }]);
+      return MDCTopAppBarAdapter;
+    }();
+
+    /**
+     * @license
+     * Copyright 2018 Google Inc.
+     *
+     * Permission is hereby granted, free of charge, to any person obtaining a copy
+     * of this software and associated documentation files (the "Software"), to deal
+     * in the Software without restriction, including without limitation the rights
+     * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+     * copies of the Software, and to permit persons to whom the Software is
+     * furnished to do so, subject to the following conditions:
+     *
+     * The above copyright notice and this permission notice shall be included in
+     * all copies or substantial portions of the Software.
+     *
+     * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+     * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+     * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+     * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+     * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+     * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+     * THE SOFTWARE.
+     */
+
+    /** @enum {string} */
+    var cssClasses = {
+      FIXED_CLASS: 'mdc-top-app-bar--fixed',
+      FIXED_SCROLLED_CLASS: 'mdc-top-app-bar--fixed-scrolled',
+      SHORT_CLASS: 'mdc-top-app-bar--short',
+      SHORT_HAS_ACTION_ITEM_CLASS: 'mdc-top-app-bar--short-has-action-item',
+      SHORT_COLLAPSED_CLASS: 'mdc-top-app-bar--short-collapsed'
+    };
+
+    /** @enum {number} */
+    var numbers = {
+      DEBOUNCE_THROTTLE_RESIZE_TIME_MS: 100,
+      MAX_TOP_APP_BAR_HEIGHT: 128
+    };
+
+    /** @enum {string} */
+    var strings = {
+      ACTION_ITEM_SELECTOR: '.mdc-top-app-bar__action-item',
+      NAVIGATION_EVENT: 'MDCTopAppBar:nav',
+      NAVIGATION_ICON_SELECTOR: '.mdc-top-app-bar__navigation-icon',
+      ROOT_SELECTOR: '.mdc-top-app-bar',
+      TITLE_SELECTOR: '.mdc-top-app-bar__title'
+    };
+
+    /**
+     * @license
+     * Copyright 2016 Google Inc.
+     *
+     * Permission is hereby granted, free of charge, to any person obtaining a copy
+     * of this software and associated documentation files (the "Software"), to deal
+     * in the Software without restriction, including without limitation the rights
+     * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+     * copies of the Software, and to permit persons to whom the Software is
+     * furnished to do so, subject to the following conditions:
+     *
+     * The above copyright notice and this permission notice shall be included in
+     * all copies or substantial portions of the Software.
+     *
+     * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+     * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+     * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+     * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+     * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+     * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+     * THE SOFTWARE.
+     */
+
+    /**
+     * @template A
+     */
+    var MDCFoundation = function () {
+      createClass(MDCFoundation, null, [{
+        key: "cssClasses",
+
+        /** @return enum{cssClasses} */
+        get: function get$$1() {
+          // Classes extending MDCFoundation should implement this method to return an object which exports every
+          // CSS class the foundation class needs as a property. e.g. {ACTIVE: 'mdc-component--active'}
+          return {};
+        }
+
+        /** @return enum{strings} */
+
+      }, {
+        key: "strings",
+        get: function get$$1() {
+          // Classes extending MDCFoundation should implement this method to return an object which exports all
+          // semantic strings as constants. e.g. {ARIA_ROLE: 'tablist'}
+          return {};
+        }
+
+        /** @return enum{numbers} */
+
+      }, {
+        key: "numbers",
+        get: function get$$1() {
+          // Classes extending MDCFoundation should implement this method to return an object which exports all
+          // of its semantic numbers as constants. e.g. {ANIMATION_DELAY_MS: 350}
+          return {};
+        }
+
+        /** @return {!Object} */
+
+      }, {
+        key: "defaultAdapter",
+        get: function get$$1() {
+          // Classes extending MDCFoundation may choose to implement this getter in order to provide a convenient
+          // way of viewing the necessary methods of an adapter. In the future, this could also be used for adapter
+          // validation.
+          return {};
+        }
+
+        /**
+         * @param {A=} adapter
+         */
+
+      }]);
+
+      function MDCFoundation() {
+        var adapter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+        classCallCheck(this, MDCFoundation);
+
+        /** @protected {!A} */
+        this.adapter_ = adapter;
+      }
+
+      createClass(MDCFoundation, [{
+        key: "init",
+        value: function init() {
+          // Subclasses should override this method to perform initialization routines (registering events, etc.)
+        }
+      }, {
+        key: "destroy",
+        value: function destroy() {
+          // Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
+        }
+      }]);
+      return MDCFoundation;
+    }();
+
+    /**
+     * @license
+     * Copyright 2018 Google Inc.
+     *
+     * Permission is hereby granted, free of charge, to any person obtaining a copy
+     * of this software and associated documentation files (the "Software"), to deal
+     * in the Software without restriction, including without limitation the rights
+     * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+     * copies of the Software, and to permit persons to whom the Software is
+     * furnished to do so, subject to the following conditions:
+     *
+     * The above copyright notice and this permission notice shall be included in
+     * all copies or substantial portions of the Software.
+     *
+     * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+     * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+     * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+     * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+     * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+     * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+     * THE SOFTWARE.
+     */
+
+    /**
+     * @extends {MDCFoundation<!MDCTopAppBarAdapter>}
+     */
+
+    var MDCTopAppBarBaseFoundation = function (_MDCFoundation) {
+      inherits(MDCTopAppBarBaseFoundation, _MDCFoundation);
+      createClass(MDCTopAppBarBaseFoundation, null, [{
+        key: 'strings',
+
+        /** @return enum {string} */
+        get: function get$$1() {
+          return strings;
+        }
+
+        /** @return enum {string} */
+
+      }, {
+        key: 'cssClasses',
+        get: function get$$1() {
+          return cssClasses;
+        }
+
+        /** @return enum {number} */
+
+      }, {
+        key: 'numbers',
+        get: function get$$1() {
+          return numbers;
+        }
+
+        /**
+         * {@see MDCTopAppBarAdapter} for typing information on parameters and return
+         * types.
+         * @return {!MDCTopAppBarAdapter}
+         */
+
+      }, {
+        key: 'defaultAdapter',
+        get: function get$$1() {
+          return (/** @type {!MDCTopAppBarAdapter} */{
+              hasClass: function hasClass() /* className: string */{},
+              addClass: function addClass() /* className: string */{},
+              removeClass: function removeClass() /* className: string */{},
+              setStyle: function setStyle() /* property: string, value: string */{},
+              getTopAppBarHeight: function getTopAppBarHeight() {},
+              registerNavigationIconInteractionHandler: function registerNavigationIconInteractionHandler() /* type: string, handler: EventListener */{},
+              deregisterNavigationIconInteractionHandler: function deregisterNavigationIconInteractionHandler() /* type: string, handler: EventListener */{},
+              notifyNavigationIconClicked: function notifyNavigationIconClicked() {},
+              registerScrollHandler: function registerScrollHandler() /* handler: EventListener */{},
+              deregisterScrollHandler: function deregisterScrollHandler() /* handler: EventListener */{},
+              registerResizeHandler: function registerResizeHandler() /* handler: EventListener */{},
+              deregisterResizeHandler: function deregisterResizeHandler() /* handler: EventListener */{},
+              getViewportScrollY: function getViewportScrollY() {
+                return (/* number */0
+                );
+              },
+              getTotalActionItems: function getTotalActionItems() {
+                return (/* number */0
+                );
+              }
+            }
+          );
+        }
+
+        /**
+         * @param {!MDCTopAppBarAdapter} adapter
+         */
+
+      }]);
+
+      function MDCTopAppBarBaseFoundation( /** @type {!MDCTopAppBarAdapter} */adapter) {
+        classCallCheck(this, MDCTopAppBarBaseFoundation);
+
+        var _this = possibleConstructorReturn(this, (MDCTopAppBarBaseFoundation.__proto__ || Object.getPrototypeOf(MDCTopAppBarBaseFoundation)).call(this, _extends(MDCTopAppBarBaseFoundation.defaultAdapter, adapter)));
+
+        _this.navClickHandler_ = function () {
+          return _this.adapter_.notifyNavigationIconClicked();
+        };
+
+        _this.scrollHandler_ = function () {};
+        return _this;
+      }
+
+      createClass(MDCTopAppBarBaseFoundation, [{
+        key: 'init',
+        value: function init() {
+          this.adapter_.registerNavigationIconInteractionHandler('click', this.navClickHandler_);
+        }
+      }, {
+        key: 'destroy',
+        value: function destroy() {
+          this.adapter_.deregisterNavigationIconInteractionHandler('click', this.navClickHandler_);
+        }
+      }, {
+        key: 'initScrollHandler',
+        value: function initScrollHandler() {
+          this.adapter_.registerScrollHandler(this.scrollHandler_);
+        }
+      }, {
+        key: 'destroyScrollHandler',
+        value: function destroyScrollHandler() {
+          this.adapter_.deregisterScrollHandler(this.scrollHandler_);
+        }
+      }]);
+      return MDCTopAppBarBaseFoundation;
+    }(MDCFoundation);
+
+    /**
+     * @license
+     * Copyright 2018 Google Inc.
+     *
+     * Permission is hereby granted, free of charge, to any person obtaining a copy
+     * of this software and associated documentation files (the "Software"), to deal
+     * in the Software without restriction, including without limitation the rights
+     * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+     * copies of the Software, and to permit persons to whom the Software is
+     * furnished to do so, subject to the following conditions:
+     *
+     * The above copyright notice and this permission notice shall be included in
+     * all copies or substantial portions of the Software.
+     *
+     * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+     * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+     * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+     * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+     * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+     * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+     * THE SOFTWARE.
+     */
+
+    var INITIAL_VALUE = 0;
+    /**
+     * @extends {MDCTopAppBarBaseFoundation<!MDCTopAppBarFoundation>}
+     * @final
+     */
+
+    var MDCTopAppBarFoundation = function (_MDCTopAppBarBaseFoun) {
+      inherits(MDCTopAppBarFoundation, _MDCTopAppBarBaseFoun);
+
+      /**
+       * @param {!MDCTopAppBarAdapter} adapter
+       */
+      function MDCTopAppBarFoundation(adapter) {
+        classCallCheck(this, MDCTopAppBarFoundation);
+
+        /**
+         * Used for diffs of current scroll position vs previous scroll position
+         * @private {number}
+         */
+        var _this = possibleConstructorReturn(this, (MDCTopAppBarFoundation.__proto__ || Object.getPrototypeOf(MDCTopAppBarFoundation)).call(this, adapter));
+
+        _this.lastScrollPosition_ = _this.adapter_.getViewportScrollY();
+
+        /**
+         * Used to verify when the top app bar is completely showing or completely hidden
+         * @private {number}
+         */
+        _this.topAppBarHeight_ = _this.adapter_.getTopAppBarHeight();
+
+        /**
+         * wasDocked_ is used to indicate if the top app bar was docked in the previous
+         * scroll handler iteration.
+         * @private {boolean}
+         */
+        _this.wasDocked_ = true;
+
+        /**
+         * isDockedShowing_ is used to indicate if the top app bar is docked in the fully
+         * shown position.
+         * @private {boolean}
+         */
+        _this.isDockedShowing_ = true;
+
+        /**
+         * Variable for current scroll position of the top app bar
+         * @private {number}
+         */
+        _this.currentAppBarOffsetTop_ = 0;
+
+        /**
+         * Used to prevent the top app bar from being scrolled out of view during resize events
+         * @private {boolean} */
+        _this.isCurrentlyBeingResized_ = false;
+
+        /**
+         * The timeout that's used to throttle the resize events
+         * @private {number}
+         */
+        _this.resizeThrottleId_ = INITIAL_VALUE;
+
+        /**
+         * The timeout that's used to debounce toggling the isCurrentlyBeingResized_ variable after a resize
+         * @private {number}
+         */
+        _this.resizeDebounceId_ = INITIAL_VALUE;
+
+        _this.scrollHandler_ = function () {
+          return _this.topAppBarScrollHandler_();
+        };
+        _this.resizeHandler_ = function () {
+          return _this.topAppBarResizeHandler_();
+        };
+        return _this;
+      }
+
+      createClass(MDCTopAppBarFoundation, [{
+        key: 'init',
+        value: function init() {
+          get(MDCTopAppBarFoundation.prototype.__proto__ || Object.getPrototypeOf(MDCTopAppBarFoundation.prototype), 'init', this).call(this);
+          this.adapter_.registerScrollHandler(this.scrollHandler_);
+          this.adapter_.registerResizeHandler(this.resizeHandler_);
+        }
+      }, {
+        key: 'destroy',
+        value: function destroy() {
+          get(MDCTopAppBarFoundation.prototype.__proto__ || Object.getPrototypeOf(MDCTopAppBarFoundation.prototype), 'destroy', this).call(this);
+          this.adapter_.deregisterScrollHandler(this.scrollHandler_);
+          this.adapter_.deregisterResizeHandler(this.resizeHandler_);
+          this.adapter_.setStyle('top', '');
+        }
+
+        /**
+         * Function to determine if the DOM needs to update.
+         * @return {boolean}
+         * @private
+         */
+
+      }, {
+        key: 'checkForUpdate_',
+        value: function checkForUpdate_() {
+          var offscreenBoundaryTop = -this.topAppBarHeight_;
+          var hasAnyPixelsOffscreen = this.currentAppBarOffsetTop_ < 0;
+          var hasAnyPixelsOnscreen = this.currentAppBarOffsetTop_ > offscreenBoundaryTop;
+          var partiallyShowing = hasAnyPixelsOffscreen && hasAnyPixelsOnscreen;
+
+          // If it's partially showing, it can't be docked.
+          if (partiallyShowing) {
+            this.wasDocked_ = false;
+          } else {
+            // Not previously docked and not partially showing, it's now docked.
+            if (!this.wasDocked_) {
+              this.wasDocked_ = true;
+              return true;
+            } else if (this.isDockedShowing_ !== hasAnyPixelsOnscreen) {
+              this.isDockedShowing_ = hasAnyPixelsOnscreen;
+              return true;
+            }
+          }
+
+          return partiallyShowing;
+        }
+
+        /**
+         * Function to move the top app bar if needed.
+         * @private
+         */
+
+      }, {
+        key: 'moveTopAppBar_',
+        value: function moveTopAppBar_() {
+          if (this.checkForUpdate_()) {
+            // Once the top app bar is fully hidden we use the max potential top app bar height as our offset
+            // so the top app bar doesn't show if the window resizes and the new height > the old height.
+            var offset = this.currentAppBarOffsetTop_;
+            if (Math.abs(offset) >= this.topAppBarHeight_) {
+              offset = -numbers.MAX_TOP_APP_BAR_HEIGHT;
+            }
+
+            this.adapter_.setStyle('top', offset + 'px');
+          }
+        }
+
+        /**
+         * Scroll handler for the default scroll behavior of the top app bar.
+         * @private
+         */
+
+      }, {
+        key: 'topAppBarScrollHandler_',
+        value: function topAppBarScrollHandler_() {
+          var currentScrollPosition = Math.max(this.adapter_.getViewportScrollY(), 0);
+          var diff = currentScrollPosition - this.lastScrollPosition_;
+          this.lastScrollPosition_ = currentScrollPosition;
+
+          // If the window is being resized the lastScrollPosition_ needs to be updated but the
+          // current scroll of the top app bar should stay in the same position.
+          if (!this.isCurrentlyBeingResized_) {
+            this.currentAppBarOffsetTop_ -= diff;
+
+            if (this.currentAppBarOffsetTop_ > 0) {
+              this.currentAppBarOffsetTop_ = 0;
+            } else if (Math.abs(this.currentAppBarOffsetTop_) > this.topAppBarHeight_) {
+              this.currentAppBarOffsetTop_ = -this.topAppBarHeight_;
+            }
+
+            this.moveTopAppBar_();
+          }
+        }
+
+        /**
+         * Top app bar resize handler that throttle/debounce functions that execute updates.
+         * @private
+         */
+
+      }, {
+        key: 'topAppBarResizeHandler_',
+        value: function topAppBarResizeHandler_() {
+          var _this2 = this;
+
+          // Throttle resize events 10 p/s
+          if (!this.resizeThrottleId_) {
+            this.resizeThrottleId_ = setTimeout(function () {
+              _this2.resizeThrottleId_ = INITIAL_VALUE;
+              _this2.throttledResizeHandler_();
+            }, numbers.DEBOUNCE_THROTTLE_RESIZE_TIME_MS);
+          }
+
+          this.isCurrentlyBeingResized_ = true;
+
+          if (this.resizeDebounceId_) {
+            clearTimeout(this.resizeDebounceId_);
+          }
+
+          this.resizeDebounceId_ = setTimeout(function () {
+            _this2.topAppBarScrollHandler_();
+            _this2.isCurrentlyBeingResized_ = false;
+            _this2.resizeDebounceId_ = INITIAL_VALUE;
+          }, numbers.DEBOUNCE_THROTTLE_RESIZE_TIME_MS);
+        }
+
+        /**
+         * Throttled function that updates the top app bar scrolled values if the
+         * top app bar height changes.
+         * @private
+         */
+
+      }, {
+        key: 'throttledResizeHandler_',
+        value: function throttledResizeHandler_() {
+          var currentHeight = this.adapter_.getTopAppBarHeight();
+          if (this.topAppBarHeight_ !== currentHeight) {
+            this.wasDocked_ = false;
+
+            // Since the top app bar has a different height depending on the screen width, this
+            // will ensure that the top app bar remains in the correct location if
+            // completely hidden and a resize makes the top app bar a different height.
+            this.currentAppBarOffsetTop_ -= this.topAppBarHeight_ - currentHeight;
+            this.topAppBarHeight_ = currentHeight;
+          }
+          this.topAppBarScrollHandler_();
+        }
+      }]);
+      return MDCTopAppBarFoundation;
+    }(MDCTopAppBarBaseFoundation);
+
+    /**
+     * @license
+     * Copyright 2018 Google Inc.
+     *
+     * Permission is hereby granted, free of charge, to any person obtaining a copy
+     * of this software and associated documentation files (the "Software"), to deal
+     * in the Software without restriction, including without limitation the rights
+     * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+     * copies of the Software, and to permit persons to whom the Software is
+     * furnished to do so, subject to the following conditions:
+     *
+     * The above copyright notice and this permission notice shall be included in
+     * all copies or substantial portions of the Software.
+     *
+     * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+     * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+     * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+     * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+     * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+     * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+     * THE SOFTWARE.
+     */
+
+    /**
+     * @extends {MDCTopAppBarBaseFoundation<!MDCShortTopAppBarFoundation>}
+     * @final
+     */
+
+    var MDCShortTopAppBarFoundation = function (_MDCTopAppBarBaseFoun) {
+      inherits(MDCShortTopAppBarFoundation, _MDCTopAppBarBaseFoun);
+
+      /**
+       * @param {!MDCTopAppBarAdapter} adapter
+       */
+      function MDCShortTopAppBarFoundation(adapter) {
+        classCallCheck(this, MDCShortTopAppBarFoundation);
+
+        // State variable for the current top app bar state
+        var _this = possibleConstructorReturn(this, (MDCShortTopAppBarFoundation.__proto__ || Object.getPrototypeOf(MDCShortTopAppBarFoundation)).call(this, adapter));
+
+        _this.isCollapsed = false;
+
+        _this.scrollHandler_ = function () {
+          return _this.shortAppBarScrollHandler_();
+        };
+        return _this;
+      }
+
+      createClass(MDCShortTopAppBarFoundation, [{
+        key: 'init',
+        value: function init() {
+          get(MDCShortTopAppBarFoundation.prototype.__proto__ || Object.getPrototypeOf(MDCShortTopAppBarFoundation.prototype), 'init', this).call(this);
+          var isAlwaysCollapsed = this.adapter_.hasClass(cssClasses.SHORT_COLLAPSED_CLASS);
+
+          if (this.adapter_.getTotalActionItems() > 0) {
+            this.adapter_.addClass(cssClasses.SHORT_HAS_ACTION_ITEM_CLASS);
+          }
+
+          if (!isAlwaysCollapsed) {
+            this.adapter_.registerScrollHandler(this.scrollHandler_);
+            this.shortAppBarScrollHandler_();
+          }
+        }
+      }, {
+        key: 'destroy',
+        value: function destroy() {
+          get(MDCShortTopAppBarFoundation.prototype.__proto__ || Object.getPrototypeOf(MDCShortTopAppBarFoundation.prototype), 'destroy', this).call(this);
+          this.adapter_.deregisterScrollHandler(this.scrollHandler_);
+        }
+
+        /**
+         * Scroll handler for applying/removing the collapsed modifier class
+         * on the short top app bar.
+         * @private
+         */
+
+      }, {
+        key: 'shortAppBarScrollHandler_',
+        value: function shortAppBarScrollHandler_() {
+          var currentScroll = this.adapter_.getViewportScrollY();
+
+          if (currentScroll <= 0) {
+            if (this.isCollapsed) {
+              this.adapter_.removeClass(cssClasses.SHORT_COLLAPSED_CLASS);
+              this.isCollapsed = false;
+            }
+          } else {
+            if (!this.isCollapsed) {
+              this.adapter_.addClass(cssClasses.SHORT_COLLAPSED_CLASS);
+              this.isCollapsed = true;
+            }
+          }
+        }
+      }]);
+      return MDCShortTopAppBarFoundation;
+    }(MDCTopAppBarBaseFoundation);
+
+    /**
+     * @license
+     * Copyright 2018 Google Inc.
+     *
+     * Permission is hereby granted, free of charge, to any person obtaining a copy
+     * of this software and associated documentation files (the "Software"), to deal
+     * in the Software without restriction, including without limitation the rights
+     * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+     * copies of the Software, and to permit persons to whom the Software is
+     * furnished to do so, subject to the following conditions:
+     *
+     * The above copyright notice and this permission notice shall be included in
+     * all copies or substantial portions of the Software.
+     *
+     * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+     * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+     * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+     * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+     * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+     * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+     * THE SOFTWARE.
+     */
+
+    /**
+     * @extends {MDCTopAppBarFoundation<!MDCFixedTopAppBarFoundation>}
+     * @final
+     */
+
+    var MDCFixedTopAppBarFoundation = function (_MDCTopAppBarFoundati) {
+      inherits(MDCFixedTopAppBarFoundation, _MDCTopAppBarFoundati);
+
+      /**
+       * @param {!MDCTopAppBarAdapter} adapter
+       */
+      function MDCFixedTopAppBarFoundation(adapter) {
+        classCallCheck(this, MDCFixedTopAppBarFoundation);
+
+        /** State variable for the previous scroll iteration top app bar state */
+        var _this = possibleConstructorReturn(this, (MDCFixedTopAppBarFoundation.__proto__ || Object.getPrototypeOf(MDCFixedTopAppBarFoundation)).call(this, adapter));
+
+        _this.wasScrolled_ = false;
+
+        _this.scrollHandler_ = function () {
+          return _this.fixedScrollHandler_();
+        };
+        return _this;
+      }
+
+      createClass(MDCFixedTopAppBarFoundation, [{
+        key: 'init',
+        value: function init() {
+          get(MDCFixedTopAppBarFoundation.prototype.__proto__ || Object.getPrototypeOf(MDCFixedTopAppBarFoundation.prototype), 'init', this).call(this);
+          this.adapter_.registerScrollHandler(this.scrollHandler_);
+        }
+      }, {
+        key: 'destroy',
+        value: function destroy() {
+          get(MDCFixedTopAppBarFoundation.prototype.__proto__ || Object.getPrototypeOf(MDCFixedTopAppBarFoundation.prototype), 'destroy', this).call(this);
+          this.adapter_.deregisterScrollHandler(this.scrollHandler_);
+        }
+
+        /**
+         * Scroll handler for applying/removing the modifier class
+         * on the fixed top app bar.
+         */
+
+      }, {
+        key: 'fixedScrollHandler_',
+        value: function fixedScrollHandler_() {
+          var currentScroll = this.adapter_.getViewportScrollY();
+
+          if (currentScroll <= 0) {
+            if (this.wasScrolled_) {
+              this.adapter_.removeClass(cssClasses.FIXED_SCROLLED_CLASS);
+              this.wasScrolled_ = false;
+            }
+          } else {
+            if (!this.wasScrolled_) {
+              this.adapter_.addClass(cssClasses.FIXED_SCROLLED_CLASS);
+              this.wasScrolled_ = true;
+            }
+          }
+        }
+      }]);
+      return MDCFixedTopAppBarFoundation;
+    }(MDCTopAppBarBaseFoundation);
+
+    var _templateObject = taggedTemplateLiteral(['<style>.mdc-top-app-bar{background-color:#6200ee;background-color:var(--mdc-theme-primary, #6200ee);color:#fff;display:flex;position:fixed;flex-direction:column;justify-content:space-between;box-sizing:border-box;width:100%;z-index:4}.mdc-top-app-bar .mdc-top-app-bar__action-item,.mdc-top-app-bar .mdc-top-app-bar__navigation-icon{color:#fff;color:var(--mdc-theme-on-primary, #fff)}.mdc-top-app-bar .mdc-top-app-bar__action-item::before,.mdc-top-app-bar .mdc-top-app-bar__action-item::after,.mdc-top-app-bar .mdc-top-app-bar__navigation-icon::before,.mdc-top-app-bar .mdc-top-app-bar__navigation-icon::after{background-color:#fff}@supports not (-ms-ime-align: auto){.mdc-top-app-bar .mdc-top-app-bar__action-item::before,.mdc-top-app-bar .mdc-top-app-bar__action-item::after,.mdc-top-app-bar .mdc-top-app-bar__navigation-icon::before,.mdc-top-app-bar .mdc-top-app-bar__navigation-icon::after{background-color:var(--mdc-theme-on-primary, #fff)}}.mdc-top-app-bar .mdc-top-app-bar__action-item:hover::before,.mdc-top-app-bar .mdc-top-app-bar__navigation-icon:hover::before{opacity:.08}.mdc-top-app-bar .mdc-top-app-bar__action-item:not(.mdc-ripple-upgraded):focus::before,.mdc-top-app-bar .mdc-top-app-bar__action-item.mdc-ripple-upgraded--background-focused::before,.mdc-top-app-bar .mdc-top-app-bar__navigation-icon:not(.mdc-ripple-upgraded):focus::before,.mdc-top-app-bar .mdc-top-app-bar__navigation-icon.mdc-ripple-upgraded--background-focused::before{transition-duration:75ms;opacity:.24}.mdc-top-app-bar .mdc-top-app-bar__action-item:not(.mdc-ripple-upgraded)::after,.mdc-top-app-bar .mdc-top-app-bar__navigation-icon:not(.mdc-ripple-upgraded)::after{transition:opacity 150ms linear}.mdc-top-app-bar .mdc-top-app-bar__action-item:not(.mdc-ripple-upgraded):active::after,.mdc-top-app-bar .mdc-top-app-bar__navigation-icon:not(.mdc-ripple-upgraded):active::after{transition-duration:75ms;opacity:.32}.mdc-top-app-bar .mdc-top-app-bar__action-item.mdc-ripple-upgraded,.mdc-top-app-bar .mdc-top-app-bar__navigation-icon.mdc-ripple-upgraded{--mdc-ripple-fg-opacity: 0.32}.mdc-top-app-bar__row{display:flex;position:relative;box-sizing:border-box;width:100%;height:64px}.mdc-top-app-bar__section{display:inline-flex;flex:1 1 auto;align-items:center;min-width:0;padding:8px 12px;z-index:1}.mdc-top-app-bar__section--align-start{justify-content:flex-start;order:-1}.mdc-top-app-bar__section--align-end{justify-content:flex-end;order:1}.mdc-top-app-bar__title{font-family:Roboto,sans-serif;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;font-size:1.25rem;line-height:2rem;font-weight:500;letter-spacing:.0125em;text-decoration:inherit;text-transform:inherit;padding-left:20px;padding-right:0;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;z-index:1}[dir=rtl] .mdc-top-app-bar__title,.mdc-top-app-bar__title[dir=rtl]{padding-left:0;padding-right:20px}.mdc-top-app-bar__action-item,.mdc-top-app-bar__navigation-icon{--mdc-ripple-fg-size: 0;--mdc-ripple-left: 0;--mdc-ripple-top: 0;--mdc-ripple-fg-scale: 1;--mdc-ripple-fg-translate-end: 0;--mdc-ripple-fg-translate-start: 0;-webkit-tap-highlight-color:rgba(0,0,0,0);will-change:transform,opacity;display:flex;position:relative;flex-shrink:0;align-items:center;justify-content:center;box-sizing:border-box;width:48px;height:48px;padding:12px;border:none;outline:none;background-color:transparent;fill:currentColor;color:inherit;text-decoration:none;cursor:pointer}.mdc-top-app-bar__action-item::before,.mdc-top-app-bar__action-item::after,.mdc-top-app-bar__navigation-icon::before,.mdc-top-app-bar__navigation-icon::after{position:absolute;border-radius:50%;opacity:0;pointer-events:none;content:""}.mdc-top-app-bar__action-item::before,.mdc-top-app-bar__navigation-icon::before{transition:opacity 15ms linear,background-color 15ms linear;z-index:1}.mdc-top-app-bar__action-item.mdc-ripple-upgraded::before,.mdc-top-app-bar__navigation-icon.mdc-ripple-upgraded::before{transform:scale(var(--mdc-ripple-fg-scale, 1))}.mdc-top-app-bar__action-item.mdc-ripple-upgraded::after,.mdc-top-app-bar__navigation-icon.mdc-ripple-upgraded::after{top:0;left:0;transform:scale(0);transform-origin:center center}.mdc-top-app-bar__action-item.mdc-ripple-upgraded--unbounded::after,.mdc-top-app-bar__navigation-icon.mdc-ripple-upgraded--unbounded::after{top:var(--mdc-ripple-top, 0);left:var(--mdc-ripple-left, 0)}.mdc-top-app-bar__action-item.mdc-ripple-upgraded--foreground-activation::after,.mdc-top-app-bar__navigation-icon.mdc-ripple-upgraded--foreground-activation::after{animation:225ms mdc-ripple-fg-radius-in forwards,75ms mdc-ripple-fg-opacity-in forwards}.mdc-top-app-bar__action-item.mdc-ripple-upgraded--foreground-deactivation::after,.mdc-top-app-bar__navigation-icon.mdc-ripple-upgraded--foreground-deactivation::after{animation:150ms mdc-ripple-fg-opacity-out;transform:translate(var(--mdc-ripple-fg-translate-end, 0)) scale(var(--mdc-ripple-fg-scale, 1))}.mdc-top-app-bar__action-item::before,.mdc-top-app-bar__action-item::after,.mdc-top-app-bar__navigation-icon::before,.mdc-top-app-bar__navigation-icon::after{top:calc(50% - 50%);left:calc(50% - 50%);width:100%;height:100%}.mdc-top-app-bar__action-item.mdc-ripple-upgraded::before,.mdc-top-app-bar__action-item.mdc-ripple-upgraded::after,.mdc-top-app-bar__navigation-icon.mdc-ripple-upgraded::before,.mdc-top-app-bar__navigation-icon.mdc-ripple-upgraded::after{top:var(--mdc-ripple-top, calc(50% - 50%));left:var(--mdc-ripple-left, calc(50% - 50%));width:var(--mdc-ripple-fg-size, 100%);height:var(--mdc-ripple-fg-size, 100%)}.mdc-top-app-bar__action-item.mdc-ripple-upgraded::after,.mdc-top-app-bar__navigation-icon.mdc-ripple-upgraded::after{width:var(--mdc-ripple-fg-size, 100%);height:var(--mdc-ripple-fg-size, 100%)}.mdc-top-app-bar--short-collapsed{border-radius:0 0 24px 0}[dir=rtl] .mdc-top-app-bar--short-collapsed,.mdc-top-app-bar--short-collapsed[dir=rtl]{border-radius:0 0 0 24px}.mdc-top-app-bar--short{top:0;right:auto;left:0;width:100%;transition:width 250ms cubic-bezier(0.4, 0, 0.2, 1)}[dir=rtl] .mdc-top-app-bar--short,.mdc-top-app-bar--short[dir=rtl]{right:0;left:auto}.mdc-top-app-bar--short .mdc-top-app-bar__row{height:56px}.mdc-top-app-bar--short .mdc-top-app-bar__section{padding:4px}.mdc-top-app-bar--short .mdc-top-app-bar__title{transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);opacity:1}.mdc-top-app-bar--short-collapsed{box-shadow:0px 2px 4px -1px rgba(0, 0, 0, 0.2),0px 4px 5px 0px rgba(0, 0, 0, 0.14),0px 1px 10px 0px rgba(0,0,0,.12);width:56px;transition:width 300ms cubic-bezier(0.4, 0, 0.2, 1)}.mdc-top-app-bar--short-collapsed .mdc-top-app-bar__title{display:none}.mdc-top-app-bar--short-collapsed .mdc-top-app-bar__action-item{transition:padding 150ms cubic-bezier(0.4, 0, 0.2, 1)}.mdc-top-app-bar--short-collapsed.mdc-top-app-bar--short-has-action-item{width:112px}.mdc-top-app-bar--short-collapsed.mdc-top-app-bar--short-has-action-item .mdc-top-app-bar__section--align-end{padding-left:0;padding-right:12px}[dir=rtl] .mdc-top-app-bar--short-collapsed.mdc-top-app-bar--short-has-action-item .mdc-top-app-bar__section--align-end,.mdc-top-app-bar--short-collapsed.mdc-top-app-bar--short-has-action-item .mdc-top-app-bar__section--align-end[dir=rtl]{padding-left:12px;padding-right:0}.mdc-top-app-bar--dense .mdc-top-app-bar__row{height:48px}.mdc-top-app-bar--dense .mdc-top-app-bar__section{padding:0 4px}.mdc-top-app-bar--dense .mdc-top-app-bar__title{padding-left:12px;padding-right:0}[dir=rtl] .mdc-top-app-bar--dense .mdc-top-app-bar__title,.mdc-top-app-bar--dense .mdc-top-app-bar__title[dir=rtl]{padding-left:0;padding-right:12px}.mdc-top-app-bar--prominent .mdc-top-app-bar__row{height:128px}.mdc-top-app-bar--prominent .mdc-top-app-bar__title{align-self:flex-end;padding-bottom:2px}.mdc-top-app-bar--prominent .mdc-top-app-bar__action-item,.mdc-top-app-bar--prominent .mdc-top-app-bar__navigation-icon{align-self:flex-start}.mdc-top-app-bar--fixed{transition:box-shadow 200ms linear}.mdc-top-app-bar--fixed-scrolled{box-shadow:0px 2px 4px -1px rgba(0, 0, 0, 0.2),0px 4px 5px 0px rgba(0, 0, 0, 0.14),0px 1px 10px 0px rgba(0,0,0,.12);transition:box-shadow 200ms linear}.mdc-top-app-bar--dense.mdc-top-app-bar--prominent .mdc-top-app-bar__row{height:96px}.mdc-top-app-bar--dense.mdc-top-app-bar--prominent .mdc-top-app-bar__section{padding:0 12px}.mdc-top-app-bar--dense.mdc-top-app-bar--prominent .mdc-top-app-bar__title{padding-left:20px;padding-right:0;padding-bottom:9px}[dir=rtl] .mdc-top-app-bar--dense.mdc-top-app-bar--prominent .mdc-top-app-bar__title,.mdc-top-app-bar--dense.mdc-top-app-bar--prominent .mdc-top-app-bar__title[dir=rtl]{padding-left:0;padding-right:20px}.mdc-top-app-bar--fixed-adjust{padding-top:64px}.mdc-top-app-bar--dense-fixed-adjust{padding-top:48px}.mdc-top-app-bar--short-fixed-adjust{padding-top:56px}.mdc-top-app-bar--prominent-fixed-adjust{padding-top:128px}.mdc-top-app-bar--dense-prominent-fixed-adjust{padding-top:96px}@media(max-width: 599px){.mdc-top-app-bar__row{height:56px}.mdc-top-app-bar__section{padding:4px}.mdc-top-app-bar--short{transition:width 200ms cubic-bezier(0.4, 0, 0.2, 1)}.mdc-top-app-bar--short-collapsed{transition:width 250ms cubic-bezier(0.4, 0, 0.2, 1)}.mdc-top-app-bar--short-collapsed .mdc-top-app-bar__section--align-end{padding-left:0;padding-right:12px}[dir=rtl] .mdc-top-app-bar--short-collapsed .mdc-top-app-bar__section--align-end,.mdc-top-app-bar--short-collapsed .mdc-top-app-bar__section--align-end[dir=rtl]{padding-left:12px;padding-right:0}.mdc-top-app-bar--prominent .mdc-top-app-bar__title{padding-bottom:6px}.mdc-top-app-bar--fixed-adjust{padding-top:56px}}:host{display:inline-flex}.mdc-top-app-bar{flex:1}.mdc-top-app-bar--prominent slot[name=navigationIcon]::slotted(*),.mdc-top-app-bar--prominent slot[name=actionItems]::slotted(*){align-self:flex-start}.mdc-top-app-bar--short-collapsed slot[name=actionItems]::slotted(*){transition:padding 150ms cubic-bezier(0.4, 0, 0.2, 1)}</style>'], ['<style>.mdc-top-app-bar{background-color:#6200ee;background-color:var(--mdc-theme-primary, #6200ee);color:#fff;display:flex;position:fixed;flex-direction:column;justify-content:space-between;box-sizing:border-box;width:100%;z-index:4}.mdc-top-app-bar .mdc-top-app-bar__action-item,.mdc-top-app-bar .mdc-top-app-bar__navigation-icon{color:#fff;color:var(--mdc-theme-on-primary, #fff)}.mdc-top-app-bar .mdc-top-app-bar__action-item::before,.mdc-top-app-bar .mdc-top-app-bar__action-item::after,.mdc-top-app-bar .mdc-top-app-bar__navigation-icon::before,.mdc-top-app-bar .mdc-top-app-bar__navigation-icon::after{background-color:#fff}@supports not (-ms-ime-align: auto){.mdc-top-app-bar .mdc-top-app-bar__action-item::before,.mdc-top-app-bar .mdc-top-app-bar__action-item::after,.mdc-top-app-bar .mdc-top-app-bar__navigation-icon::before,.mdc-top-app-bar .mdc-top-app-bar__navigation-icon::after{background-color:var(--mdc-theme-on-primary, #fff)}}.mdc-top-app-bar .mdc-top-app-bar__action-item:hover::before,.mdc-top-app-bar .mdc-top-app-bar__navigation-icon:hover::before{opacity:.08}.mdc-top-app-bar .mdc-top-app-bar__action-item:not(.mdc-ripple-upgraded):focus::before,.mdc-top-app-bar .mdc-top-app-bar__action-item.mdc-ripple-upgraded--background-focused::before,.mdc-top-app-bar .mdc-top-app-bar__navigation-icon:not(.mdc-ripple-upgraded):focus::before,.mdc-top-app-bar .mdc-top-app-bar__navigation-icon.mdc-ripple-upgraded--background-focused::before{transition-duration:75ms;opacity:.24}.mdc-top-app-bar .mdc-top-app-bar__action-item:not(.mdc-ripple-upgraded)::after,.mdc-top-app-bar .mdc-top-app-bar__navigation-icon:not(.mdc-ripple-upgraded)::after{transition:opacity 150ms linear}.mdc-top-app-bar .mdc-top-app-bar__action-item:not(.mdc-ripple-upgraded):active::after,.mdc-top-app-bar .mdc-top-app-bar__navigation-icon:not(.mdc-ripple-upgraded):active::after{transition-duration:75ms;opacity:.32}.mdc-top-app-bar .mdc-top-app-bar__action-item.mdc-ripple-upgraded,.mdc-top-app-bar .mdc-top-app-bar__navigation-icon.mdc-ripple-upgraded{--mdc-ripple-fg-opacity: 0.32}.mdc-top-app-bar__row{display:flex;position:relative;box-sizing:border-box;width:100%;height:64px}.mdc-top-app-bar__section{display:inline-flex;flex:1 1 auto;align-items:center;min-width:0;padding:8px 12px;z-index:1}.mdc-top-app-bar__section--align-start{justify-content:flex-start;order:-1}.mdc-top-app-bar__section--align-end{justify-content:flex-end;order:1}.mdc-top-app-bar__title{font-family:Roboto,sans-serif;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;font-size:1.25rem;line-height:2rem;font-weight:500;letter-spacing:.0125em;text-decoration:inherit;text-transform:inherit;padding-left:20px;padding-right:0;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;z-index:1}[dir=rtl] .mdc-top-app-bar__title,.mdc-top-app-bar__title[dir=rtl]{padding-left:0;padding-right:20px}.mdc-top-app-bar__action-item,.mdc-top-app-bar__navigation-icon{--mdc-ripple-fg-size: 0;--mdc-ripple-left: 0;--mdc-ripple-top: 0;--mdc-ripple-fg-scale: 1;--mdc-ripple-fg-translate-end: 0;--mdc-ripple-fg-translate-start: 0;-webkit-tap-highlight-color:rgba(0,0,0,0);will-change:transform,opacity;display:flex;position:relative;flex-shrink:0;align-items:center;justify-content:center;box-sizing:border-box;width:48px;height:48px;padding:12px;border:none;outline:none;background-color:transparent;fill:currentColor;color:inherit;text-decoration:none;cursor:pointer}.mdc-top-app-bar__action-item::before,.mdc-top-app-bar__action-item::after,.mdc-top-app-bar__navigation-icon::before,.mdc-top-app-bar__navigation-icon::after{position:absolute;border-radius:50%;opacity:0;pointer-events:none;content:""}.mdc-top-app-bar__action-item::before,.mdc-top-app-bar__navigation-icon::before{transition:opacity 15ms linear,background-color 15ms linear;z-index:1}.mdc-top-app-bar__action-item.mdc-ripple-upgraded::before,.mdc-top-app-bar__navigation-icon.mdc-ripple-upgraded::before{transform:scale(var(--mdc-ripple-fg-scale, 1))}.mdc-top-app-bar__action-item.mdc-ripple-upgraded::after,.mdc-top-app-bar__navigation-icon.mdc-ripple-upgraded::after{top:0;left:0;transform:scale(0);transform-origin:center center}.mdc-top-app-bar__action-item.mdc-ripple-upgraded--unbounded::after,.mdc-top-app-bar__navigation-icon.mdc-ripple-upgraded--unbounded::after{top:var(--mdc-ripple-top, 0);left:var(--mdc-ripple-left, 0)}.mdc-top-app-bar__action-item.mdc-ripple-upgraded--foreground-activation::after,.mdc-top-app-bar__navigation-icon.mdc-ripple-upgraded--foreground-activation::after{animation:225ms mdc-ripple-fg-radius-in forwards,75ms mdc-ripple-fg-opacity-in forwards}.mdc-top-app-bar__action-item.mdc-ripple-upgraded--foreground-deactivation::after,.mdc-top-app-bar__navigation-icon.mdc-ripple-upgraded--foreground-deactivation::after{animation:150ms mdc-ripple-fg-opacity-out;transform:translate(var(--mdc-ripple-fg-translate-end, 0)) scale(var(--mdc-ripple-fg-scale, 1))}.mdc-top-app-bar__action-item::before,.mdc-top-app-bar__action-item::after,.mdc-top-app-bar__navigation-icon::before,.mdc-top-app-bar__navigation-icon::after{top:calc(50% - 50%);left:calc(50% - 50%);width:100%;height:100%}.mdc-top-app-bar__action-item.mdc-ripple-upgraded::before,.mdc-top-app-bar__action-item.mdc-ripple-upgraded::after,.mdc-top-app-bar__navigation-icon.mdc-ripple-upgraded::before,.mdc-top-app-bar__navigation-icon.mdc-ripple-upgraded::after{top:var(--mdc-ripple-top, calc(50% - 50%));left:var(--mdc-ripple-left, calc(50% - 50%));width:var(--mdc-ripple-fg-size, 100%);height:var(--mdc-ripple-fg-size, 100%)}.mdc-top-app-bar__action-item.mdc-ripple-upgraded::after,.mdc-top-app-bar__navigation-icon.mdc-ripple-upgraded::after{width:var(--mdc-ripple-fg-size, 100%);height:var(--mdc-ripple-fg-size, 100%)}.mdc-top-app-bar--short-collapsed{border-radius:0 0 24px 0}[dir=rtl] .mdc-top-app-bar--short-collapsed,.mdc-top-app-bar--short-collapsed[dir=rtl]{border-radius:0 0 0 24px}.mdc-top-app-bar--short{top:0;right:auto;left:0;width:100%;transition:width 250ms cubic-bezier(0.4, 0, 0.2, 1)}[dir=rtl] .mdc-top-app-bar--short,.mdc-top-app-bar--short[dir=rtl]{right:0;left:auto}.mdc-top-app-bar--short .mdc-top-app-bar__row{height:56px}.mdc-top-app-bar--short .mdc-top-app-bar__section{padding:4px}.mdc-top-app-bar--short .mdc-top-app-bar__title{transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);opacity:1}.mdc-top-app-bar--short-collapsed{box-shadow:0px 2px 4px -1px rgba(0, 0, 0, 0.2),0px 4px 5px 0px rgba(0, 0, 0, 0.14),0px 1px 10px 0px rgba(0,0,0,.12);width:56px;transition:width 300ms cubic-bezier(0.4, 0, 0.2, 1)}.mdc-top-app-bar--short-collapsed .mdc-top-app-bar__title{display:none}.mdc-top-app-bar--short-collapsed .mdc-top-app-bar__action-item{transition:padding 150ms cubic-bezier(0.4, 0, 0.2, 1)}.mdc-top-app-bar--short-collapsed.mdc-top-app-bar--short-has-action-item{width:112px}.mdc-top-app-bar--short-collapsed.mdc-top-app-bar--short-has-action-item .mdc-top-app-bar__section--align-end{padding-left:0;padding-right:12px}[dir=rtl] .mdc-top-app-bar--short-collapsed.mdc-top-app-bar--short-has-action-item .mdc-top-app-bar__section--align-end,.mdc-top-app-bar--short-collapsed.mdc-top-app-bar--short-has-action-item .mdc-top-app-bar__section--align-end[dir=rtl]{padding-left:12px;padding-right:0}.mdc-top-app-bar--dense .mdc-top-app-bar__row{height:48px}.mdc-top-app-bar--dense .mdc-top-app-bar__section{padding:0 4px}.mdc-top-app-bar--dense .mdc-top-app-bar__title{padding-left:12px;padding-right:0}[dir=rtl] .mdc-top-app-bar--dense .mdc-top-app-bar__title,.mdc-top-app-bar--dense .mdc-top-app-bar__title[dir=rtl]{padding-left:0;padding-right:12px}.mdc-top-app-bar--prominent .mdc-top-app-bar__row{height:128px}.mdc-top-app-bar--prominent .mdc-top-app-bar__title{align-self:flex-end;padding-bottom:2px}.mdc-top-app-bar--prominent .mdc-top-app-bar__action-item,.mdc-top-app-bar--prominent .mdc-top-app-bar__navigation-icon{align-self:flex-start}.mdc-top-app-bar--fixed{transition:box-shadow 200ms linear}.mdc-top-app-bar--fixed-scrolled{box-shadow:0px 2px 4px -1px rgba(0, 0, 0, 0.2),0px 4px 5px 0px rgba(0, 0, 0, 0.14),0px 1px 10px 0px rgba(0,0,0,.12);transition:box-shadow 200ms linear}.mdc-top-app-bar--dense.mdc-top-app-bar--prominent .mdc-top-app-bar__row{height:96px}.mdc-top-app-bar--dense.mdc-top-app-bar--prominent .mdc-top-app-bar__section{padding:0 12px}.mdc-top-app-bar--dense.mdc-top-app-bar--prominent .mdc-top-app-bar__title{padding-left:20px;padding-right:0;padding-bottom:9px}[dir=rtl] .mdc-top-app-bar--dense.mdc-top-app-bar--prominent .mdc-top-app-bar__title,.mdc-top-app-bar--dense.mdc-top-app-bar--prominent .mdc-top-app-bar__title[dir=rtl]{padding-left:0;padding-right:20px}.mdc-top-app-bar--fixed-adjust{padding-top:64px}.mdc-top-app-bar--dense-fixed-adjust{padding-top:48px}.mdc-top-app-bar--short-fixed-adjust{padding-top:56px}.mdc-top-app-bar--prominent-fixed-adjust{padding-top:128px}.mdc-top-app-bar--dense-prominent-fixed-adjust{padding-top:96px}@media(max-width: 599px){.mdc-top-app-bar__row{height:56px}.mdc-top-app-bar__section{padding:4px}.mdc-top-app-bar--short{transition:width 200ms cubic-bezier(0.4, 0, 0.2, 1)}.mdc-top-app-bar--short-collapsed{transition:width 250ms cubic-bezier(0.4, 0, 0.2, 1)}.mdc-top-app-bar--short-collapsed .mdc-top-app-bar__section--align-end{padding-left:0;padding-right:12px}[dir=rtl] .mdc-top-app-bar--short-collapsed .mdc-top-app-bar__section--align-end,.mdc-top-app-bar--short-collapsed .mdc-top-app-bar__section--align-end[dir=rtl]{padding-left:12px;padding-right:0}.mdc-top-app-bar--prominent .mdc-top-app-bar__title{padding-bottom:6px}.mdc-top-app-bar--fixed-adjust{padding-top:56px}}:host{display:inline-flex}.mdc-top-app-bar{flex:1}.mdc-top-app-bar--prominent slot[name=navigationIcon]::slotted(*),.mdc-top-app-bar--prominent slot[name=actionItems]::slotted(*){align-self:flex-start}.mdc-top-app-bar--short-collapsed slot[name=actionItems]::slotted(*){transition:padding 150ms cubic-bezier(0.4, 0, 0.2, 1)}</style>']);
+    var style = html(_templateObject);
+
+    var _templateObject$1 = taggedTemplateLiteral(["\n      <div class=\"mdc-top-app-bar__row\">\n        <section class=\"mdc-top-app-bar__section\">\n          <slot name=\"extraRow\"></slot>\n        </section>\n      </div>"], ["\n      <div class=\"mdc-top-app-bar__row\">\n        <section class=\"mdc-top-app-bar__section\">\n          <slot name=\"extraRow\"></slot>\n        </section>\n      </div>"]),
+        _templateObject2 = taggedTemplateLiteral(["\n      ", "\n      <header class=\"mdc-top-app-bar ", "\">\n      <div class=\"mdc-top-app-bar__row\">\n        <section class=\"mdc-top-app-bar__section mdc-top-app-bar__section--align-start\">\n          <slot name=\"navigationIcon\"></slot>\n          <span class=\"mdc-top-app-bar__title\"><slot name=\"title\"></slot></span>\n        </section>\n        <section class=\"mdc-top-app-bar__section mdc-top-app-bar__section--align-end\" role=\"toolbar\">\n          <slot name=\"actionItems\"></slot>\n        </section>\n      </div>\n      ", "\n    </header>"], ["\n      ", "\n      <header class=\"mdc-top-app-bar ", "\">\n      <div class=\"mdc-top-app-bar__row\">\n        <section class=\"mdc-top-app-bar__section mdc-top-app-bar__section--align-start\">\n          <slot name=\"navigationIcon\"></slot>\n          <span class=\"mdc-top-app-bar__title\"><slot name=\"title\"></slot></span>\n        </section>\n        <section class=\"mdc-top-app-bar__section mdc-top-app-bar__section--align-end\" role=\"toolbar\">\n          <slot name=\"actionItems\"></slot>\n        </section>\n      </div>\n      ", "\n    </header>"]);
+
+    var __decorate = undefined && undefined.__decorate || function (decorators, target, key, desc) {
+        var c = arguments.length,
+            r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+            d;
+        if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) {
+            if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+        }return c > 3 && r && Object.defineProperty(target, key, r), r;
+    };
+    var TopAppBar = function (_BaseElement) {
+        inherits(TopAppBar, _BaseElement);
+
+        function TopAppBar() {
+            classCallCheck(this, TopAppBar);
+
+            // type can be 'fixed' || 'prominent' || 'short' || 'shortCollapsed' || 'prominentFixed'
+            var _this = possibleConstructorReturn(this, (TopAppBar.__proto__ || Object.getPrototypeOf(TopAppBar)).apply(this, arguments));
+
+            _this.type = '';
+            _this.dense = false;
+            // does not work with prominent
+            _this.extraRow = false;
+            return _this;
+        }
+
+        createClass(TopAppBar, [{
+            key: "renderStyle",
+            value: function renderStyle() {
+                return style;
+            }
+            // TODO(sorvell): MDC decorates the navigation icon and action items with
+            // ripples. Since these are slotted items here, the assumption is that the
+            // user brings a web component with a ripple if rippling is desired.
+
+        }, {
+            key: "render",
+            value: function render() {
+                var classes = {
+                    'mdc-top-app-bar--fixed': this.type === 'fixed' || this.type === 'prominentFixed',
+                    'mdc-top-app-bar--short': this.type === 'shortCollapsed' || this.type === 'short',
+                    'mdc-top-app-bar--short-collapsed': this.type === 'shortCollapsed',
+                    'mdc-top-app-bar--prominent': this.type === 'prominent' || this.type === 'prominentFixed',
+                    'mdc-top-app-bar--dense': this.dense
+                };
+                var extraRow = this.extraRow ? html(_templateObject$1) : '';
+                return html(_templateObject2, this.renderStyle(), classMap(classes), extraRow);
+            }
+        }, {
+            key: "createAdapter",
+            value: function createAdapter() {
+                var _this2 = this;
+
+                return _extends({}, get(TopAppBar.prototype.__proto__ || Object.getPrototypeOf(TopAppBar.prototype), "createAdapter", this).call(this), { setStyle: function setStyle(property$$1, value) {
+                        return _this2.mdcRoot.style.setProperty(property$$1, value);
+                    }, getTopAppBarHeight: function getTopAppBarHeight() {
+                        return _this2.mdcRoot.clientHeight;
+                    },
+                    // TODO(sorvell): don't understand why the top-app-bar knows about navigation
+                    registerNavigationIconInteractionHandler: function registerNavigationIconInteractionHandler(type, handler) {
+                        if (_this2._navIconSlot) {
+                            _this2._navIconSlot.addEventListener(type, handler);
+                        }
+                    }, deregisterNavigationIconInteractionHandler: function deregisterNavigationIconInteractionHandler(type, handler) {
+                        if (_this2._navIconSlot) {
+                            _this2._navIconSlot.removeEventListener(type, handler);
+                        }
+                    }, notifyNavigationIconClicked: function notifyNavigationIconClicked() {
+                        _this2.dispatchEvent(new Event(strings.NAVIGATION_EVENT, { bubbles: true, cancelable: true }));
+                    }, registerScrollHandler: function registerScrollHandler(handler) {
+                        return _this2.scrollTarget.addEventListener('scroll', handler);
+                    }, deregisterScrollHandler: function deregisterScrollHandler(handler) {
+                        return _this2.scrollTarget.removeEventListener('scroll', handler);
+                    }, registerResizeHandler: function registerResizeHandler(handler) {
+                        return window.addEventListener('resize', handler);
+                    }, deregisterResizeHandler: function deregisterResizeHandler(handler) {
+                        return window.removeEventListener('resize', handler);
+                    }, getViewportScrollY: function getViewportScrollY() {
+                        return _this2.scrollTarget[_this2.scrollTarget === window ? 'pageYOffset' : 'scrollTop'];
+                    }, getTotalActionItems: function getTotalActionItems() {
+                        return _this2._actionItemsSlot.assignedNodes({ flatten: true }).length;
+                    } });
+            }
+            // override that prevents `super.firstUpdated` since we are controlling when `createFoundation` is called.
+
+        }, {
+            key: "firstUpdated",
+            value: function firstUpdated() {}
+        }, {
+            key: "updated",
+            value: function updated(changedProperties) {
+                // update foundation if `type` or `scrollTarget` changes
+                if (changedProperties.has('type') || changedProperties.has('scrollTarget')) {
+                    this.createFoundation();
+                }
+            }
+        }, {
+            key: "createFoundation",
+            value: function createFoundation() {
+                get(TopAppBar.prototype.__proto__ || Object.getPrototypeOf(TopAppBar.prototype), "createFoundation", this).call(this);
+                var windowScroller = this.scrollTarget === window;
+                // we add support for top-app-bar's tied to an element scroller.
+                this.mdcRoot.style.position = windowScroller ? '' : 'absolute';
+                // TODO(sorvell): not sure why this is necessary but the MDC demo does it.
+                this.mdcRoot.style.top = windowScroller ? '0px' : '';
+            }
+        }, {
+            key: "mdcFoundationClass",
+            get: function get$$1() {
+                return this.type === 'fixed' || this.type === 'prominentFixed' ? MDCFixedTopAppBarFoundation : this.type === 'short' || this.type === 'shortCollapsed' ? MDCShortTopAppBarFoundation : MDCTopAppBarFoundation;
+            }
+        }, {
+            key: "scrollTarget",
+            get: function get$$1() {
+                return this._scrollTarget || window;
+            },
+            set: function set$$1(value) {
+                var old = this.scrollTarget;
+                this._scrollTarget = value;
+                this.requestUpdate('scrollTarget', old);
+            }
+        }]);
+        return TopAppBar;
+    }(BaseElement);
+    __decorate([query('.mdc-top-app-bar')], TopAppBar.prototype, "mdcRoot", void 0);
+    __decorate([query('[name="navigationIcon"]')], TopAppBar.prototype, "_navIconSlot", void 0);
+    __decorate([query('[name="actionItems"]')], TopAppBar.prototype, "_actionItemsSlot", void 0);
+    __decorate([property({ reflect: true })], TopAppBar.prototype, "type", void 0);
+    __decorate([property({ type: Boolean, reflect: true })], TopAppBar.prototype, "dense", void 0);
+    __decorate([property({ type: Boolean, reflect: true })], TopAppBar.prototype, "extraRow", void 0);
+    TopAppBar = __decorate([customElement('mwc-top-app-bar')], TopAppBar);
+
+    var _templateObject$2 = taggedTemplateLiteral(['<style>:host{font-family:var(--mdc-icon-font, "Material Icons");font-weight:normal;font-style:normal;font-size:var(--mdc-icon-size, 24px);line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;-webkit-font-feature-settings:"liga";-webkit-font-smoothing:antialiased}</style>'], ['<style>:host{font-family:var(--mdc-icon-font, "Material Icons");font-weight:normal;font-style:normal;font-size:var(--mdc-icon-size, 24px);line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;-webkit-font-feature-settings:"liga";-webkit-font-smoothing:antialiased}</style>']);
+    var style$1 = html(_templateObject$2);
+
+    /**
+    @license
+    Copyright 2018 Google Inc. All Rights Reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    */
+    // load material icons font
+
+    var fontEl = document.createElement('link');
+    fontEl.rel = 'stylesheet';
+    fontEl.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
+    document.head.appendChild(fontEl);
+
+    var _templateObject$3 = taggedTemplateLiteral(["", "<slot></slot>"], ["", "<slot></slot>"]);
+
+    var __decorate$1 = undefined && undefined.__decorate || function (decorators, target, key, desc) {
+        var c = arguments.length,
+            r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+            d;
+        if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) {
+            if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+        }return c > 3 && r && Object.defineProperty(target, key, r), r;
+    };
+    var Icon = function (_LitElement) {
+        inherits(Icon, _LitElement);
+
+        function Icon() {
+            classCallCheck(this, Icon);
+            return possibleConstructorReturn(this, (Icon.__proto__ || Object.getPrototypeOf(Icon)).apply(this, arguments));
+        }
+
+        createClass(Icon, [{
+            key: "renderStyle",
+            value: function renderStyle() {
+                return style$1;
+            }
+        }, {
+            key: "render",
+            value: function render() {
+                return html(_templateObject$3, this.renderStyle());
+            }
+        }]);
+        return Icon;
+    }(LitElement);
+    Icon = __decorate$1([customElement('mwc-icon')], Icon);
+
+}());
+</script></body></html>
